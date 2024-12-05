@@ -1,0 +1,205 @@
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #6ec9bc;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
+}
+
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin-right: 80px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"],
+button.cta-button {
+    background-color: #6ec9bc;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover,
+button.cta-button:hover {
+    background-color: #6ec9bc;
+}
+
+a,
+.form-group a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover,
+.form-group a:hover {
+    text-decoration: underline;
+}
+
+#hero {
+    background-color: #ccece7;
+    color: #333;
+    text-align: center;
+    padding: 100px 0;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+#features {
+    align-items: center;
+    text-align: center;
+    padding: 50px 0;
+}
+
+#features ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+#features li {
+    text-align: center;
+    flex: 1;
+    margin: 0 15px;
+}
+
+#contact {
+    background-color: #f0f0f0;
+    padding: 50px 0;
+    text-align: center;
+}
+
+#contact form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#contact label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#contact button {
+    background-color: #6ec9bc;
+    color: #fff;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#contact button:hover {
+    background-color: #6ec9bc;
+}
+
+#about-us {
+    color: #333;
+    text-align: center;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    /* padding: 50px 0; */
+}
+
+#features,
+#mission-vision,
+#team,
+#values {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+#team .team-member {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#team ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+#team li {
+    text-align: center;
+    flex: 1;
+    margin: 0 15px;
+}
+
+#values ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#values li {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #6ec9bc;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+}
+
