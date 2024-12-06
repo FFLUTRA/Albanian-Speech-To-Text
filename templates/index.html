@@ -17,12 +17,18 @@
                 <li><a href="/register">Register</a></li>
             </ul>
         </nav>
+        {% if session.user_email %}
+            <div style="text-align: right; padding: 10px; color: white;">
+            Hi, {{ session.user_email }}!
+            </div>
+        {% endif %}
     </header>
     <main>
         <div id="hero">
             <h1>Albanian Speech to Text</h1>
             <h3>Convert Albanian speech to text with ease</h3>
-            <h3><a href="/login">Get Started</a></h3>
+            <!-- <h3><a href="/login">Get Started</a></h3> -->
+            <button><a href="/login">Get Started</a></button>
         </div>
         <section id="features">
             <h1>Why Choose Albanian Speech to Text?</h1>
@@ -41,7 +47,7 @@
                 </li>
             </ul>
         </section>
-        <section id="contact">
+        <section id="contact-index">
             <h2>Get in Touch</h2>
             <form>
                 <label for="name">Name:</label>
