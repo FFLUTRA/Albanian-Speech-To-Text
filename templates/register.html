@@ -7,7 +7,26 @@
     <title>Login</title>
 </head>
 <body>
-    {% include 'header.html' %}
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/login">Log In</a></li>
+                <li><a href="/register">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <main>
         <div class="container">
             <h1>Register</h1>
@@ -37,7 +56,9 @@
             </form>
         </div>
     </main>
-    {% include 'footer.html' %}
+    <footer>
+        <p>&copy; ASTT </p>
+    </footer>
     <script src="static/validationRegister.js"></script>
 </body>
 </html>
