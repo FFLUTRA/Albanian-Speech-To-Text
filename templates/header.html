@@ -1,0 +1,22 @@
+<!-- header.html -->
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/login">Log In</a></li>
+            <li><a href="/register">Register</a></li>
+            <li class="dropdown" id="userDropdown">
+                {% if session.user_email %}
+                <a href="#" class="dropbtn">Hi, {{ session.user_email }}!</a>
+                <div class="dropdown-content">
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Log Out</a>
+                </div>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+</header>

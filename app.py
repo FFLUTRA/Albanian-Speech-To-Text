@@ -62,11 +62,11 @@ def login_user():
 
             # Redirect to the homepage or any desired route after successful login
             return redirect(url_for('index'))
-        
+       
         flash(LOGIN_FAIL, 'error')
         # If login fails, you can render an error message or redirect back to the login page
         return render_template('login.html', error='Invalid email or password')
-        
+       
 
     return render_template('login.html')
 
@@ -91,9 +91,17 @@ def createUser():
     if user.add_user():
         flash(REGISTER_SUCCESS, 'success')
         return render_template('login.html')
-    
+   
     flash(REGISTER_FAIL, 'error')
     return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    # Clear the user session data
+    session.pop('user_email', None)
+
+    # Redirect to the home page or any desired route after logout
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)

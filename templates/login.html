@@ -8,6 +8,8 @@
     <title>Login</title>
 </head>
 <body>
+    
+    {% include 'header.html' %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flashes">
@@ -17,22 +19,6 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/login">Log In</a></li>
-                <li><a href="/register">Register</a></li>
-            </ul>
-        </nav>
-        {% if session.user_email %}
-    <div style="text-align: right; padding: 10px; color: white;">
-        Hi, {{ session.user_email }}!
-    </div>
-{% endif %}
-    </header>
     <main>
         <div class="container">
             <h1>Login</h1>
@@ -51,10 +37,12 @@
                 <br>
                 <br>
                 <br>
+                <br>
+                <br>
+                <br>
+                <br>
         </div>
     </main>
-    <footer>
-        <p>&copy; ASTT </p>
-    </footer>
+    {% include 'footer.html' %}
 </body>
 </html>
