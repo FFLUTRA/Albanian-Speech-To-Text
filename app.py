@@ -5,6 +5,7 @@ from passlib.hash import sha1_crypt
 from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
 from components.user import User
 from flask import flash
+from components.feedback import submit_message
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -95,13 +96,57 @@ def createUser():
     flash(REGISTER_FAIL, 'error')
     return render_template('register.html')
 
-@app.route('/logout')
-def logout():
-    # Clear the user session data
-    session.pop('user_email', None)
+def get_user_id_by_email(email):
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM users WHERE email = %s", (email,))
+    user_id = cur.fetchone()
+    cur.close()
+    conn.close()
 
-    # Redirect to the home page or any desired route after logout
-    return redirect(url_for('home'))
+    if user_id:
+        return user_id[0]  # Assuming user_id is the first column, adjust as needed
+
+    return None
+
+def index():
+    if request.method == 'POST':
+        if 'user_email' in session:
+            email = session['user_email']
+            message_text = request.form['message']
+
+            # Retrieve user_id from the database using the email
+            user_id = get_user_id_by_email(email)
+
+            # Check if user_id is found
+            if user_id is not None:
+                submit_message(user_id, message_text)
+
+                # Redirect to the index page or any other desired route
+                flash("Message submitted successfully!", 'success')
+                return redirect(url_for('index'))
+                   
+@app.route('/submit_contact', methods=['POST'])
+def submit_contact():
+    if request.method == 'POST':
+        if 'user_email' in session:
+            email = session['user_email']
+            message_text = request.form['message']
+
+            # Retrieve user_id from the database using the email
+            user_id = get_user_id_by_email(email)
+
+            # Check if user_id is found
+            if user_id is not None:
+                submit_message(user_id, message_text)
+
+                # Redirect to the contact page or any other desired route
+                flash("Message submitted successfully!", 'success')
+                return redirect(url_for('contact'))
+
+    # Handle other cases or render an error page if needed
+    flash("Error submitting the message.", 'error')
+    return redirect(url_for('contact'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -7,7 +7,22 @@
     <title>Albanian Speech to Text</title>
 </head>
 <body>
-    {% include 'header.html' %}
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/login">Log In</a></li>
+                <li><a href="/register">Register</a></li>
+            </ul>
+        </nav>
+        {% if session.user_email %}
+            <div style="text-align: right; padding: 10px; color: white;">
+            Hi, {{ session.user_email }}!
+            </div>
+        {% endif %}
+    </header>
     <main>
         <div id="hero">
             <h1>Albanian Speech to Text</h1>
@@ -34,30 +49,15 @@
         </section>
         <section id="contact-index">
             <h2>Get in Touch</h2>
-            <form>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email">
+            <form action="/submit_contact" method="post">
                 <label for="message">Message:</label>
                 <textarea id="message" name="message"></textarea>
                 <button type="submit" class="cta-button">Send Message</button>
             </form>
         </section>
     </main>
-    {% include 'footer.html' %}
-    <script>
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === 'block') {
-                        openDropdown.style.display = 'none';
-                    }
-                }
-            }
-        }
-    </script>
+    <footer>
+        <p>&copy; ASTT </p>
+    </footer>
 </body>
 </html>
