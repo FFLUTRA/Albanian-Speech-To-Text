@@ -5,7 +5,7 @@ from passlib.hash import sha1_crypt
 from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
 from components.user import User
 from flask import flash
-from components.feedback import submit_message
+from components.feedback import Feedback
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -96,6 +96,15 @@ def createUser():
     flash(REGISTER_FAIL, 'error')
     return render_template('register.html')
 
+
+@app.route('/logout')
+def logout():
+    # Clear the user session data
+    session.pop('user_email', None)
+
+    # Redirect to the home page or any desired route after logout
+    return redirect(url_for('home'))
+
 def get_user_id_by_email(email):
     conn = db_conn()
     cur = conn.cursor()
@@ -113,39 +122,28 @@ def index():
     if request.method == 'POST':
         if 'user_email' in session:
             email = session['user_email']
-            message_text = request.form['message']
-
-            # Retrieve user_id from the database using the email
+            feedback_data = request.form['message']
             user_id = get_user_id_by_email(email)
+            feedback = Feedback(user_id, feedback_data)
 
-            # Check if user_id is found
             if user_id is not None:
-                submit_message(user_id, message_text)
-
-                # Redirect to the index page or any other desired route
+                feedback.submit_feedback(user_id, feedback_data)
                 flash("Message submitted successfully!", 'success')
                 return redirect(url_for('index'))
+    return redirect(url_for('index'))
                    
 @app.route('/submit_contact', methods=['POST'])
-def submit_contact():
-    if request.method == 'POST':
-        if 'user_email' in session:
-            email = session['user_email']
-            message_text = request.form['message']
+def submit_feedback():
+    if 'user_email' in session:
+        email = session['user_email']
+        feedback_data = request.form['message']
+        user_id = get_user_id_by_email(email)
+        feedback = Feedback(user_id, feedback_data)
 
-            # Retrieve user_id from the database using the email
-            user_id = get_user_id_by_email(email)
-
-            # Check if user_id is found
-            if user_id is not None:
-                submit_message(user_id, message_text)
-
-                # Redirect to the contact page or any other desired route
-                flash("Message submitted successfully!", 'success')
-                return redirect(url_for('contact'))
-
-    # Handle other cases or render an error page if needed
-    flash("Error submitting the message.", 'error')
+        if user_id is not None:
+            feedback.submit_feedback(user_id, feedback_data)
+            flash("Message submitted successfully!", 'success')
+            return redirect(url_for('contact'))
     return redirect(url_for('contact'))
 
 if __name__ == '__main__':

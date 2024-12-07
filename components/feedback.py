@@ -1,22 +1,21 @@
-# messages.py
-
-import psycopg2
 from flask import flash
+from components.dbconn import DbConn
 
-def db_conn():
-    return psycopg2.connect(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
+class Feedback:
+    def __init__(self, user_id, feedback_data):
+        self.user_id = user_id
+        self.feedback_data = feedback_data
+        self.db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
 
-def submit_message(user_id, message_text):
-    conn = db_conn()
-    cur = conn.cursor()
-    try:
-        cur.execute("INSERT INTO messages (user_id, feedback_data, submission_date) VALUES (%s, %s, CURRENT_TIMESTAMP)",
-                    (user_id, message_text))
-        conn.commit()
-        flash("Message submitted successfully!", 'success')
-    except Exception as e:
-        conn.rollback()
-        flash(f"Error submitting the message: {str(e)}", 'error')
-    finally:
-        cur.close()
-        conn.close()
+    def submit_feedback(self, user_id, feedback_data):
+        user_id = self.user_id
+        feedback_data = self.feedback_data
+        conn = self.db_conn.connect()
+
+        try:
+            with conn.cursor() as cur:
+                cur.execute("INSERT INTO messages (user_id, feedback_data, submission_date) VALUES (%s, %s, CURRENT_TIMESTAMP)",
+                        (user_id, feedback_data))
+                conn.commit()
+        finally:
+            conn.close()
