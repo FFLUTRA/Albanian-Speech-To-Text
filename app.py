@@ -30,42 +30,9 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/profile')
-def profile():
-    if 'user_email' in session:
-        email = session['user_email']
-        conn = db_conn()
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM users WHERE email = %s", (email,))
-        user_data = cur.fetchone()
-        cur.close()
-        conn.close()
-
-        if user_data:
-            return render_template('profile.html', user_data=user_data)
-   
-    # Redirect to login if the user is not logged in
-    flash('Please log in to access your profile.', 'error')
-    return redirect(url_for('login'))
-
 def db_conn():
     conn = psycopg2.connect(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
     return conn
-
-@app.route('/create', methods=['POST'])
-def createUser():
-    username = request.form['username']
-    email = request.form['email']
-    password = request.form['password']
-    level = request.form['security_level']
-    user = User(username, email, password, level)
-
-    if user.add_user():
-        flash(REGISTER_SUCCESS, 'success')
-        return render_template('login.html')
-   
-    flash(REGISTER_FAIL, 'error')
-    return render_template('register.html')
 
 def validate_login(email, password):
     conn = db_conn()
@@ -104,109 +71,31 @@ def login_user():
 
     return render_template('login.html')
 
-def get_username_by_email(email):
+@app.route('/')
+def index():
     conn = db_conn()
     cur = conn.cursor()
-    cur.execute("SELECT username FROM users WHERE email = %s", (email,))
-    username = cur.fetchone()
-    cur.close()
-    conn.close()
+    cur.execute('''SELECT * FROM users''')
+    data = cur.fetchall();
+    cur.close();
+    conn.close();
+    return render_template('index.html', data = data)
 
-    if username:
-        return username
+@app.route('/create', methods=['POST'])
+def createUser():
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    level = request.form['security_level']
+    user = User(username, email, password, level)
 
-def get_password_by_email(email):
-    conn = db_conn()
-    cur = conn.cursor()
-    cur.execute("SELECT password FROM users WHERE email = %s", (email,))
-    password = cur.fetchone()
-    cur.close()
-    conn.close()
-
-    if password:
-        return password
+    if user.add_user():
+        flash(REGISTER_SUCCESS, 'success')
+        return render_template('login.html')
    
-def get_level_by_email(email):
-    conn = db_conn()
-    cur = conn.cursor()
-    cur.execute("SELECT level FROM users WHERE email = %s", (email,))
-    level = cur.fetchone()
-    cur.close()
-    conn.close()
+    flash(REGISTER_FAIL, 'error')
+    return render_template('register.html')
 
-    if level:
-        return level
-
-@app.route('/update_email', methods=['POST'])
-def update_email():
-    if 'user_email' in session:
-        current_email = session['user_email']
-        new_email = request.form['new_email']
-
-        if not new_email:
-            flash('New email cannot be empty.', 'error')
-            return redirect(url_for('profile'))
-
-        # Create an instance of the User class
-        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
-   
-        # Call the updateEmail method
-        if user.updateEmail(new_email):
-            flash('Email updated successfully.', 'success')
-        else:
-            flash('Error updating email.', 'error')
-
-        return redirect(url_for('profile'))
-
-    flash('Please log in to access your profile.', 'error')
-    return render_template('profile.html')
-
-# @app.route('/update_email', methods=['POST'])
-# def update_password():
-#     if 'user_email' in session:
-#         current_email = session['user_email']
-#         new_email = request.form['new_email']
-
-#         if not new_email:
-#             flash('New email cannot be empty.', 'error')
-#             return redirect(url_for('profile'))
-
-#         # Create an instance of the User class
-#         user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
-   
-#         # Call the updateEmail method
-#         if user.updateEmail(new_email):
-#             flash('Email updated successfully.', 'success')
-#         else:
-#             flash('Error updating email.', 'error')
-
-#         return redirect(url_for('profile'))
-
-#     flash('Please log in to access your profile.', 'error')
-#     return render_template('profile.html')
-
-@app.route('/update_level', methods=['POST'])
-def update_level():
-    if 'user_email' in session:
-        current_email = session['user_email']
-        new_level = request.form['new_level']
-
-        if not new_level:
-            flash('New level cannot be empty.', 'error')
-            return redirect(url_for('profile'))
-
-        # Create an instance of the User class
-        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
-   
-        if user.updateSecurityLevel(new_level):
-            flash('Level updated successfully.', 'success')
-        else:
-            flash('Error updating level.', 'error')
-
-        return redirect(url_for('profile'))
-
-    flash('Please log in to access your profile.', 'error')
-    return render_template('profile.html')
 
 @app.route('/logout')
 def logout():
@@ -257,15 +146,15 @@ def submit_feedback():
             return redirect(url_for('contact'))
     return redirect(url_for('contact'))
 
-@app.route('/')
-def index():
+@app.route('/messages')
+def messages():
     conn = db_conn()
     cur = conn.cursor()
-    cur.execute('''SELECT * FROM users''')
+    cur.execute('''SELECT * FROM messages''')
     data = cur.fetchall();
     cur.close();
     conn.close();
-    return render_template('index.html', data = data)
+    return render_template('messages.html', data = data)
 
 if __name__ == '__main__':
     app.run(debug=True)
