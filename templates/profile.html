@@ -26,7 +26,7 @@
         <form action="{{ url_for('update_email') }}" method="POST" class="update">
             <div class="profile">
                 <p><strong>Email:</strong> {{ user_data[2] }}</p>
-                <input type="text" name="new_email" id="new_email" placeholder="Enter new email">
+                <input type="email" name="new_email" id="new_email" placeholder="Enter new email">
                 <button type="submit">Update email</button>
             </div>
         </form>
@@ -39,6 +39,18 @@
                     <option value="HIGH">HIGH</option>
                 </select>
                 <button type="submit">Update Security Level</button>
+            </div>
+        </form>
+        <form action="{{ url_for('update_password') }}" method="POST" class="update">
+            <div class="profile">
+                <p><strong>Update Password:</strong></p>
+                <input type="password" name="new_password" id="new_password" placeholder="Enter new password">
+                <button type="submit" onclick="return confirm('Are you sure you want to update your password?')">Update password</button>
+            </div>
+        </form>
+        <form action="{{ url_for('delete_account') }}" method="POST" class="update">
+            <div class="profile">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</button>
             </div>
         </form>
     </div>
