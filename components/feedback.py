@@ -63,9 +63,7 @@ class Feedback:
             with conn.cursor() as cur:
                 cur.execute("DELETE FROM messages WHERE id = %s", (message_id,))
                 conn.commit()
-                flash("Message deleted successfully!", 'success')
         except Exception as e:
             conn.rollback()
-            flash(f"Error deleting the message: {str(e)}", 'error')
         finally:
             conn.close()

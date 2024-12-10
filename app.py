@@ -161,29 +161,29 @@ def update_email():
     flash('Please log in to access your profile.', 'error')
     return render_template('profile.html')
 
-@app.route('/update_password', methods=['POST'])
-def update_password():
-    if 'user_email' in session:
-        current_email = session['user_email']
-        new_password = request.form['new_password']
+# @app.route('/update_email', methods=['POST'])
+# def update_password():
+#     if 'user_email' in session:
+#         current_email = session['user_email']
+#         new_email = request.form['new_email']
 
-        if not new_password:
-            flash('New password cannot be empty.', 'error')
-            return redirect(url_for('profile'))
+#         if not new_email:
+#             flash('New email cannot be empty.', 'error')
+#             return redirect(url_for('profile'))
 
-        # Create an instance of the User class
-        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
+#         # Create an instance of the User class
+#         user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
    
-        # Call the updateEmail method
-        if user.resetPassword(new_password):
-            flash('Password updated successfully.', 'success')
-        else:
-            flash('Error updating password.', 'error')
+#         # Call the updateEmail method
+#         if user.updateEmail(new_email):
+#             flash('Email updated successfully.', 'success')
+#         else:
+#             flash('Error updating email.', 'error')
 
-        return redirect(url_for('profile'))
+#         return redirect(url_for('profile'))
 
-    flash('Please log in to access your profile.', 'error')
-    return render_template('profile.html')
+#     flash('Please log in to access your profile.', 'error')
+#     return render_template('profile.html')
 
 @app.route('/update_level', methods=['POST'])
 def update_level():
@@ -204,27 +204,6 @@ def update_level():
             flash('Error updating level.', 'error')
 
         return redirect(url_for('profile'))
-
-    flash('Please log in to access your profile.', 'error')
-    return render_template('profile.html')
-
-@app.route('/delete_account', methods=['POST'])
-def delete_account():
-    if 'user_email' in session:
-        current_email = session['user_email']
-       
-        # Create an instance of the User class
-        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
-
-        # Call the deleteAccount method
-        if user.deleteAccount():
-            # Clear the user session data after account deletion
-            session.pop('user_email', None)
-            flash('Account deleted successfully.', 'success')
-            return redirect(url_for('home'))
-        else:
-            flash('Error deleting account.', 'error')
-            return redirect(url_for('profile'))
 
     flash('Please log in to access your profile.', 'error')
     return render_template('profile.html')
@@ -283,19 +262,21 @@ def messages():
     conn = db_conn()
     cur = conn.cursor()
     cur.execute('''SELECT * FROM messages''')
-    data = cur.fetchall();
-    cur.close();
-    conn.close();
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
     return render_template('messages.html', data = data)
-@app.route('/')
+
+
+@app.route('/users')
 def index():
     conn = db_conn()
     cur = conn.cursor()
     cur.execute('''SELECT * FROM users''')
-    data = cur.fetchall();
-    cur.close();
-    conn.close();
-    return render_template('index.html', data = data)
-
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('users.html', data = data)
+ 
 if __name__ == '__main__':
     app.run(debug=True)
