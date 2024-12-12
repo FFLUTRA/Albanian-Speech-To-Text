@@ -1,20 +1,80 @@
-<!-- header.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Messages</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="dropdown1">
+        <h1 styles="color: brown; text-align: center">Messages List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feedback Id</th>
+                    <th>User Id</th>
+                    <th>Message</th>
+                    <th>Time</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}></td>
+                    <td><button>Update</button></td>
+                    <td><button>Delete</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
+    {% include 'footer.html' %}
+</body>
+</html>
+
+Kaltrine Dvorani, Now
 <header>
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/about">About Us</a></li>
-            <li><a href="/login">Log In</a></li>
-            <li><a href="/register">Register</a></li>
+
+            <!-- Show Log In and Register only if the user is not logged in -->
+            {% if not session.user_email %}
+                <li><a href="/login">Log In</a></li>
+                <li><a href="/register">Register</a></li>
+            {% endif %}
+
             <li class="dropdown" id="userDropdown">
+                <!-- Show user-specific options if the user is logged in -->
                 {% if session.user_email %}
-                <a href="#" class="dropbtn">Hi, {{ session.user_email }}!</a>
-                <div class="dropdown-content">
-                    <a href="/profile">Profile</a>
-                    <a href="/logout">Log Out</a>
-                </div>
+                    <a href="#" class="dropbtn">Hi, {{ session.user_email }}!</a>
+                    <div class="dropdown-content">
+                        <a href="/profile">Profile</a>
+                        <a href="/logout">Log Out</a>
+                    </div>
                 {% endif %}
             </li>
         </ul>
