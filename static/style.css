@@ -97,7 +97,7 @@ select {
 
 input[type="submit"],
 button.cta-button {
-    background-color: #232726;
+    background-color: #7eb5ad;
     color: white;
     padding: 14px 20px;
     border: none;
@@ -320,5 +320,30 @@ th, td {
 
 th {
     background-color: #f2f2f2;
+}
+.action-form {
+    display: inline-block; /* Ensure forms appear next to each other */
+    margin: 0; /* Remove default margin */
+}
+input[type="submit"]
+.action-button {
+    padding: 8px 12px; /* Adjust padding to your liking */
+    font-size: 14px; /* Adjust font size */
+    background-color: #3498db; /* Set background color */
+    color: #fff; /* Set text color */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add pointer cursor on hover */
+    border-radius: 4px; /* Optional: Add border-radius for rounded corners */
+}
+input[type="submit"]
+.action-button:hover {
+    background-color: #2980b9; /* Change background color on hover */
+}
+
+/* Make the form invisible */
+.action-form {
+    border: none; /* Remove form border */
+    padding: 0; /* Remove form padding */
+    background: none; /* Make form background transparent */
 }
 

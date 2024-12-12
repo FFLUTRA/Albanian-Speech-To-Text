@@ -255,28 +255,27 @@ def submit_feedback():
             feedback.submit_feedback(user_id, feedback_data)
             flash("Message submitted successfully!", 'success')
             return redirect(url_for('contact'))
-    return redirect(url_for('contact'))
+    return redirect(url_for('contact'))  
 
 @app.route('/messages')
 def messages():
     conn = db_conn()
     cur = conn.cursor()
     cur.execute('''SELECT * FROM messages''')
-    data = cur.fetchall()
-    cur.close()
-    conn.close()
+    data = cur.fetchall();
+    cur.close();
+    conn.close();
     return render_template('messages.html', data = data)
-
-
-@app.route('/users')
+@app.route('/')
 def index():
     conn = db_conn()
     cur = conn.cursor()
     cur.execute('''SELECT * FROM users''')
-    data = cur.fetchall()
-    cur.close()
-    conn.close()
-    return render_template('users.html', data = data)
- 
+    data = cur.fetchall();
+    cur.close();
+    conn.close();
+    return render_template('index.html', data = data)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -20,50 +20,54 @@ class Feedback:
         finally:
             conn.close()
 
-    def read_feedback(self, message_id):
-        conn = self.db_conn.connect()
+    # def read_feedback(self, message_id):
+    #     conn = self.db_conn.connect()
 
-        try:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * FROM messages WHERE id = %s", (message_id,))
-                message = cur.fetchone()
-                return message
-        finally:
-            conn.close()
+    #     try:
+    #         with conn.cursor() as cur:
+    #             cur.execute("SELECT * FROM messages WHERE id = %s", (message_id,))
+    #             message = cur.fetchone()
+    #             return message
+    #     finally:
+    #         conn.close()
 
-    def readAll_feedback(self):
-        conn = self.db_conn.connect()
+    # def readAll_feedback(self):
+    #     conn = self.db_conn.connect()
 
-        try:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * FROM messages")
-                message = cur.fetchone()
-                return message
-        finally:
-            conn.close()        
+    #     try:
+    #         with conn.cursor() as cur:
+    #             cur.execute("SELECT * FROM messages")
+    #             message = cur.fetchone()
+    #             return message
+    #     finally:
+    #         conn.close()        
+    # def update_feedback(self, feedback_id, updated_message):
+    #     conn = self.db_conn.connect()
 
-    def update_feedback(self, message_id, updated_feedback_data):
-        conn = self.db_conn.connect()
+    #     try:
+    #         with conn.cursor() as cur:
+    #             cur.execute("UPDATE messages SET feedback_data = %s WHERE feedback_data = %s", (updated_message, self.feedback_data))
+    #             conn.commit()
+    #     finally:
+    #         conn.close()
 
-        try:
-            with conn.cursor() as cur:
-                cur.execute("UPDATE messages SET feedback_data = %s WHERE id = %s", (updated_feedback_data, message_id))
-                conn.commit()
-                flash("Message updated successfully!", 'success')
-        except Exception as e:
-            conn.rollback()
-            flash(f"Error updating the message: {str(e)}", 'error')
-        finally:
-            conn.close()
+    # def delete_feedback(self, feedback_id):
+    #     conn = self.db_conn.connect()
 
-    def delete_feedback(self, message_id):
-        conn = self.db_conn.connect()
+    #     try:
+    #         with conn.cursor() as cur:
+    #             cur.execute("DELETE FROM messages WHERE feedback_id = %s", (feedback_id,))
+    #             conn.commit()
+    #     finally:
+    #         conn.close()
 
-        try:
-            with conn.cursor() as cur:
-                cur.execute("DELETE FROM messages WHERE id = %s", (message_id,))
-                conn.commit()
-        except Exception as e:
-            conn.rollback()
-        finally:
-            conn.close()
+    # def get_feedback_data():
+    #     db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
+    #     conn = db_conn.connect()
+
+    #     try:
+    #         with conn.cursor() as cur:
+    #             cur.execute("SELECT * FROM messages ORDER BY submission_date DESC")
+    #             data = cur.fetchall()
+    #     finally:
+    #         conn.close()
