@@ -71,3 +71,5 @@ class Feedback:
     #             data = cur.fetchall()
     #     finally:
     #         conn.close()
+
+    #     return data
