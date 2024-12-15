@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Transcription Page</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div id="transcription-container">
+        <div id="transcription-area">
+            <div id="upload-area">
+                <p>Click the "Start" button to begin transcription.</p>
+            </div>
+            <textarea id="transcription" placeholder="Transcription will appear here..." readonly></textarea>
+            <div id="transcription-buttons">
+                <button id="start-transcription">Start</button>
+                <button id="end-transcription" disabled>End</button>
+                <button id="save-transcription" disabled>Save Transcription</button>
+            </div>
+        </div>
+        <div id="info-area">
+            <h2>Transcription Information</h2>
+            <p>This transcription service uses advanced algorithms to convert audio files into text.</p>
+            <p>Supported formats: mp3, wav, mp4, webm.</p>
+            <p>File size limit: 250MB.</p>
+            <p>Please make sure your audio file meets the requirements for accurate transcription.</p>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    
+    <script>
+        let recognition;
+        let transcription = '';
+
+        document.getElementById('start-transcription').addEventListener('click', function () {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function (event) {
+                const result = event.results[event.results.length - 1];
+                transcription = result[0].transcript;
+                document.getElementById('transcription').value = transcription;
+            };
+
+            recognition.onend = function () {
+                document.getElementById('end-transcription').disabled = true;
+                document.getElementById('save-transcription').disabled = false;
+            };
+
+            recognition.start();
+
+            document.getElementById('start-transcription').disabled = true;
+            document.getElementById('end-transcription').disabled = false;
+            document.getElementById('save-transcription').disabled = true;
+            document.getElementById('transcription').value = 'Listening...';
+        });
+
+        document.getElementById('end-transcription').addEventListener('click', function () {
+            recognition.stop();
+        });
+
+        document.getElementById('save-transcription').addEventListener('click', function () {
+            const blob = new Blob([transcription], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'transcription.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    </script>
+</body>
+</html>

@@ -1,75 +1,327 @@
+import psycopg2
+import secrets
+from flask import Flask, render_template, request, redirect, url_for, session
+from passlib.hash import sha1_crypt
+from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
+from components.user import User
 from flask import flash
-from components.dbconn import DbConn
+from components.feedback import Feedback
+import speech_recognition as sr
+from flask import jsonify
 
-class Feedback:
-    def __init__(self, user_id, feedback_data):
-        self.user_id = user_id
-        self.feedback_data = feedback_data
-        self.db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
+app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
-    def submit_feedback(self, user_id, feedback_data):
-        user_id = self.user_id
-        feedback_data = self.feedback_data
-        conn = self.db_conn.connect()
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-        try:
-            with conn.cursor() as cur:
-                cur.execute("INSERT INTO messages (user_id, feedback_data, submission_date) VALUES (%s, %s, CURRENT_TIMESTAMP)",
-                        (user_id, feedback_data))
-                conn.commit()
-        finally:
-            conn.close()
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
-    # def read_feedback(self, message_id):
-    #     conn = self.db_conn.connect()
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
-    #     try:
-    #         with conn.cursor() as cur:
-    #             cur.execute("SELECT * FROM messages WHERE id = %s", (message_id,))
-    #             message = cur.fetchone()
-    #             return message
-    #     finally:
-    #         conn.close()
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
-    # def readAll_feedback(self):
-    #     conn = self.db_conn.connect()
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
-    #     try:
-    #         with conn.cursor() as cur:
-    #             cur.execute("SELECT * FROM messages")
-    #             message = cur.fetchone()
-    #             return message
-    #     finally:
-    #         conn.close()        
-    # def update_feedback(self, feedback_id, updated_message):
-    #     conn = self.db_conn.connect()
+@app.route('/profile')
+def profile():
+    if 'user_email' in session:
+        email = session['user_email']
+        conn = db_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+        user_data = cur.fetchone()
+        cur.close()
+        conn.close()
 
-    #     try:
-    #         with conn.cursor() as cur:
-    #             cur.execute("UPDATE messages SET feedback_data = %s WHERE feedback_data = %s", (updated_message, self.feedback_data))
-    #             conn.commit()
-    #     finally:
-    #         conn.close()
+        if user_data:
+            return render_template('profile.html', user_data=user_data)
+   
+    # Redirect to login if the user is not logged in
+    flash('Please log in to access your profile.', 'error')
+    return redirect(url_for('login'))
 
-    # def delete_feedback(self, feedback_id):
-    #     conn = self.db_conn.connect()
+def db_conn():
+    conn = psycopg2.connect(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
+    return conn
 
-    #     try:
-    #         with conn.cursor() as cur:
-    #             cur.execute("DELETE FROM messages WHERE feedback_id = %s", (feedback_id,))
-    #             conn.commit()
-    #     finally:
-    #         conn.close()
+@app.route('/create', methods=['POST'])
+def createUser():
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    level = request.form['security_level']
+    user = User(username, email, password, level)
 
-    # def get_feedback_data():
-    #     db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
-    #     conn = db_conn.connect()
+    if user.add_user():
+        flash(REGISTER_SUCCESS, 'success')
+        return render_template('login.html')
+   
+    flash(REGISTER_FAIL, 'error')
+    return render_template('register.html')
 
-    #     try:
-    #         with conn.cursor() as cur:
-    #             cur.execute("SELECT * FROM messages ORDER BY submission_date DESC")
-    #             data = cur.fetchall()
-    #     finally:
-    #         conn.close()
+def validate_login(email, password):
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+    user_data = cur.fetchone()
+    cur.close()
+    conn.close()
 
-    #     return data       
+    if user_data:
+        stored_hash = user_data[3]  # Assuming the hash is stored in the 4th column, adjust as needed
+        if sha1_crypt.verify(password, stored_hash):
+            return True  # Password is correct
+    return False  # Invalid email or password
+
+# Route for login
+@app.route('/login', methods=['GET', 'POST'])
+def login_user():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Validate login credentials
+        if validate_login(email, password):
+            # Set the user as logged in (you can use a session or other authentication mechanisms)
+            session['user_email'] = email
+            flash(LOGIN_SUCCESS, 'success')
+
+            # Redirect to the homepage or any desired route after successful login
+            return redirect(url_for('index'))
+       
+        flash(LOGIN_FAIL, 'error')
+        # If login fails, you can render an error message or redirect back to the login page
+        return render_template('login.html', error='Invalid email or password')
+       
+
+    return render_template('login.html')
+
+def get_username_by_email(email):
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT username FROM users WHERE email = %s", (email,))
+    username = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if username:
+        return username
+
+def get_password_by_email(email):
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT password FROM users WHERE email = %s", (email,))
+    password = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if password:
+        return password
+   
+def get_level_by_email(email):
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT level FROM users WHERE email = %s", (email,))
+    level = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if level:
+        return level
+
+@app.route('/update_email', methods=['POST'])
+def update_email():
+    if 'user_email' in session:
+        current_email = session['user_email']
+        new_email = request.form['new_email']
+
+        if not new_email:
+            flash('New email cannot be empty.', 'error')
+            return redirect(url_for('profile'))
+
+        # Create an instance of the User class
+        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
+   
+        # Call the updateEmail method
+        if user.updateEmail(new_email):
+            flash('Email updated successfully.', 'success')
+        else:
+            flash('Error updating email.', 'error')
+
+        return redirect(url_for('profile'))
+
+    flash('Please log in to access your profile.', 'error')
+    return render_template('profile.html')
+
+@app.route('/update_password', methods=['POST'])
+def update_password():
+    if 'user_email' in session:
+        current_email = session['user_email']
+        new_password = request.form['new_password']
+
+        if not new_password:
+            flash('New password cannot be empty.', 'error')
+            return redirect(url_for('profile'))
+
+        # Create an instance of the User class
+        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
+   
+        # Call the updateEmail method
+        if user.resetPassword(new_password):
+            flash('Password updated successfully.', 'success')
+        else:
+            flash('Error updating password.', 'error')
+
+        return redirect(url_for('profile'))
+
+    flash('Please log in to access your profile.', 'error')
+    return render_template('profile.html')
+
+@app.route('/update_level', methods=['POST'])
+def update_level():
+    if 'user_email' in session:
+        current_email = session['user_email']
+        new_level = request.form['new_level']
+
+        if not new_level:
+            flash('New level cannot be empty.', 'error')
+            return redirect(url_for('profile'))
+
+        # Create an instance of the User class
+        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
+   
+        if user.updateSecurityLevel(new_level):
+            flash('Level updated successfully.', 'success')
+        else:
+            flash('Error updating level.', 'error')
+
+        return redirect(url_for('profile'))
+
+    flash('Please log in to access your profile.', 'error')
+    return render_template('profile.html')
+
+@app.route('/delete_account', methods=['POST'])
+def delete_account():
+    if 'user_email' in session:
+        current_email = session['user_email']
+       
+        # Create an instance of the User class
+        user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
+
+        # Call the deleteAccount method
+        if user.deleteAccount():
+            # Clear the user session data after account deletion
+            session.pop('user_email', None)
+            flash('Account deleted successfully.', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Error deleting account.', 'error')
+            return redirect(url_for('profile'))
+
+    flash('Please log in to access your profile.', 'error')
+    return render_template('profile.html')
+
+@app.route('/logout')
+def logout():
+    # Clear the user session data
+    session.pop('user_email', None)
+
+    # Redirect to the home page or any desired route after logout
+    return redirect(url_for('home'))
+
+def get_user_id_by_email(email):
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM users WHERE email = %s", (email,))
+    user_id = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if user_id:
+        return user_id[0]  # Assuming user_id is the first column, adjust as needed
+
+    return None
+
+def index():
+    if request.method == 'POST':
+        if 'user_email' in session:
+            email = session['user_email']
+            feedback_data = request.form['message']
+            user_id = get_user_id_by_email(email)
+            feedback = Feedback(user_id, feedback_data)
+
+            if user_id is not None:
+                feedback.submit_feedback(user_id, feedback_data)
+                flash("Message submitted successfully!", 'success')
+                return redirect(url_for('index'))
+    return redirect(url_for('index'))
+                   
+@app.route('/submit_contact', methods=['POST'])
+def submit_feedback():
+    if 'user_email' in session:
+        email = session['user_email']
+        feedback_data = request.form['message']
+        user_id = get_user_id_by_email(email)
+        feedback = Feedback(user_id, feedback_data)
+
+        if user_id is not None:
+            feedback.submit_feedback(user_id, feedback_data)
+            flash("Message submitted successfully!", 'success')
+            return redirect(url_for('contact'))
+    return redirect(url_for('contact'))
+
+@app.route('/messages')
+def messages():
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute('''SELECT * FROM messages''')
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('messages.html', data = data)
+
+
+@app.route('/users')
+def index():
+    conn = db_conn()
+    cur = conn.cursor()
+    cur.execute('''SELECT * FROM users''')
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('users.html', data = data)
+
+
+recognizer = sr.Recognizer()
+
+@app.route('/transcription', methods=['GET', 'POST'])
+def transcription():
+    global recognizer
+    if request.method == 'POST':
+        if 'audio' in request.files:
+            audio_data = request.files['audio'].read()
+            try:
+                with sr.AudioFile(audio_data) as source:
+                    audio_text = recognizer.recognize_google(source)
+                return jsonify({'transcription': audio_text})
+            except sr.UnknownValueError:
+                return jsonify({'error': 'Speech Recognition could not understand the audio'})
+            except sr.RequestError as e:
+                return jsonify({'error': f"Could not request results from Google Speech Recognition service; {e}"})
+        else:
+            return jsonify({'error': 'No audio file provided'})
+    return render_template('transcription.html')
+
+ 
+if __name__ == '__main__':
+    app.run(debug=True)
