@@ -6,11 +6,15 @@ from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
 from components.user import User
 from flask import flash
 from components.feedback import Feedback
-import speech_recognition as sr
-from flask import jsonify
+from components.presentation_manager import PresentationManager
+from components.mode import Mode
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
+presentation_manager = PresentationManager()
+
+presentation_manager.start()
 
 @app.route('/')
 def home():
@@ -96,8 +100,7 @@ def login_user():
             session['user_email'] = email
             flash(LOGIN_SUCCESS, 'success')
 
-            # Redirect to the homepage or any desired route after successful login
-            return redirect(url_for('index'))
+            return render_template('index.html')
        
         flash(LOGIN_FAIL, 'error')
         # If login fails, you can render an error message or redirect back to the login page
@@ -278,7 +281,7 @@ def submit_feedback():
             feedback.submit_feedback(user_id, feedback_data)
             flash("Message submitted successfully!", 'success')
             return redirect(url_for('contact'))
-    return redirect(url_for('contact'))
+    return redirect(url_for('contact'))  
 
 @app.route('/messages')
 def messages():
@@ -300,28 +303,7 @@ def index():
     cur.close()
     conn.close()
     return render_template('users.html', data = data)
-
-
-recognizer = sr.Recognizer()
-
-@app.route('/transcription', methods=['GET', 'POST'])
-def transcription():
-    global recognizer
-    if request.method == 'POST':
-        if 'audio' in request.files:
-            audio_data = request.files['audio'].read()
-            try:
-                with sr.AudioFile(audio_data) as source:
-                    audio_text = recognizer.recognize_google(source)
-                return jsonify({'transcription': audio_text})
-            except sr.UnknownValueError:
-                return jsonify({'error': 'Speech Recognition could not understand the audio'})
-            except sr.RequestError as e:
-                return jsonify({'error': f"Could not request results from Google Speech Recognition service; {e}"})
-        else:
-            return jsonify({'error': 'No audio file provided'})
-    return render_template('transcription.html')
-
  
 if __name__ == '__main__':
+    presentation_manager.modeManager()
     app.run(debug=True)
