@@ -1,7 +1,8 @@
 import psycopg2
 
 class DbConn:
-    def __init__(self, database, host, user, password, port):
+    def __init__(self, database="astt_db", host="localhost", user="postgres", password="postgres", port="5432"):
+    # def __init__(self, database = , host, user, password, port):
         self.database = database
         self.host = host
         self.user = user

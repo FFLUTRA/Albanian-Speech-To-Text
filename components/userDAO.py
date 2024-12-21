@@ -6,7 +6,9 @@ from components.user import User
 
 class UserDao:
     def __init__(self):
-        self.db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
+        self.db_conn = DbConn()
+        # self.db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
+
 
     def add_user(self, user):
         conn = self.db_conn.connect()
