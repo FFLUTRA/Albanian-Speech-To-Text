@@ -7,14 +7,11 @@ from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
 from components.user import User
 from flask import flash
 from components.feedback import Feedback
-<<<<<<< HEAD
 from components.presentation_manager import PresentationManager
 from components.mode import Mode
-
-=======
 import speech_recognition as sr
 from flask import jsonify
->>>>>>> 28f60b8492e28ed46fbccd067dd0c1adab2ed01c
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -95,7 +92,6 @@ def validate_login(email, password):
             return True  # Password is correct
     return False  # Invalid email or password
 
-# Route for login
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     if request.method == 'POST':
@@ -114,7 +110,6 @@ def login_user():
         # If login fails, you can render an error message or redirect back to the login page
         return render_template('login.html', error='Invalid email or password')
        
-
     return render_template('login.html')
 
 def get_username_by_email(email):
