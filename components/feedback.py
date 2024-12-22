@@ -20,6 +20,18 @@ class Feedback:
         finally:
             conn.close()
 
+    def get_feedbacks_by_user_id(self):
+        conn = self.db_conn.connect()
+
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM messages WHERE user_id = %s", (self.user_id,))
+                data = cur.fetchall()
+        finally:
+            conn.close()
+
+        return data
+
     # def read_feedback(self, message_id):
     #     conn = self.db_conn.connect()
 

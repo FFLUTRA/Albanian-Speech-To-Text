@@ -7,28 +7,16 @@
     <title>Albanian Speech to Text</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/login">Log In</a></li>
-                <li><a href="/register">Register</a></li>
-            </ul>
-        </nav>
-        {% if session.user_email %}
-            <div style="text-align: right; padding: 10px; color: white;">
-            Hi, {{ session.user_email }}!
-            </div>
-        {% endif %}
-    </header>
+    {% include 'header.html' %}
     <main>
         <div id="hero">
             <h1>Albanian Speech to Text</h1>
             <h3>Convert Albanian speech to text with ease</h3>
-            <!-- <h3><a href="/login">Get Started</a></h3> -->
-            <button><a href="/login">Get Started</a></button>
+                {% if not session.user_email %}
+                    <button><a href="/login">Get Started</a></button>
+                {% else %}
+                    <button><a href="/transcription">Get Started</a></button>
+                {% endif %}
         </div>
         <section id="features">
             <h1>Why Choose Albanian Speech to Text?</h1>
@@ -51,13 +39,24 @@
             <h2>Get in Touch</h2>
             <form action="/submit_contact" method="post">
                 <label for="message">Message:</label>
-                <textarea id="message" name="message"></textarea>
+                <textarea id="message" name="message" rows="4" required></textarea>
                 <button type="submit" class="cta-button">Send Message</button>
             </form>
         </section>
     </main>
-    <footer>
-        <p>&copy; ASTT </p>
-    </footer>
+    {% include 'footer.html' %}
+    <script>
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>

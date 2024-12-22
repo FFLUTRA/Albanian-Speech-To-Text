@@ -7,28 +7,24 @@
     <title>Contact</title>
 </head>
 <body style="background-image: url('background.jpg');">
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/login">Log In</a></li>
-                <li><a href="/register">Register</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'header.html' %}
     <main>
         <section id="contact">
             <div id="contact-form">
                 <h2>Contact Us</h2>
-                <form action="/submit_contact" method="post">
-
+                {% if not session.user_email %}
+                <form method="post">
                     <label for="message">Your Message:</label>
                     <textarea id="message" name="message" rows="4" required></textarea>
-
-                    <button type="submit" class="cta-button">Submit</button>
+                    <button><a href="/login">Submit</a></button>
                 </form>
+                {% else %}
+                    <form action="/submit_contact" method="post">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <button type="submit" class="cta-button">Submit</button>
+                    </form>
+                {% endif %}
             </div>
 
             <div id="contact-info">
@@ -59,8 +55,6 @@
             </div>
         </section>
     </main>
-    <footer>
-        <p>&copy; ASTT </p>
-    </footer>
+    {% include 'footer.html' %}
 </body>
 </html>
