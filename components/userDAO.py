@@ -1,4 +1,3 @@
-from typing import Type
 from passlib.hash import sha1_crypt
 from components.dbconn import DbConn
 from components.level import LEVEL

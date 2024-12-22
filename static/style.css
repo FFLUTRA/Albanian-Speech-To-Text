@@ -12,7 +12,6 @@ header {
     box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
 }
 
-
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -31,10 +30,6 @@ nav ul li a {
     font-weight: bold;
     font-size: 16px;
 }
-
-/* nav ul li a:hover {
-    text-decoration: underline;
-} */
 
 .container {
     display: flex;
@@ -131,6 +126,7 @@ a:hover,
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
     margin-bottom: 30px;
 }
+
 #hero button a{
     color: white;
     text-decoration: none;
@@ -157,7 +153,6 @@ a:hover,
 
 #contact {
     background-color: #f0f0f0;
-    /* padding: 50px 0; */
     text-align: center;
 }
 
@@ -177,16 +172,6 @@ a:hover,
     margin-bottom: 10px;
 }
 
-#contact button {
-    background-color: #7eb5ad;
-    color: #fff;
-    padding: 14px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
 #contact button:hover {
     background-color: #7eb5ad;
 }
@@ -199,7 +184,6 @@ a:hover,
     color: #333;
     text-align: center;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-    /* padding: 50px 0; */
 }
 
 #features,
@@ -266,14 +250,12 @@ button:hover {
     background-color: hsl(171, 27%, 60%);
 }
 
-/* Dropdown Button */
 .dropbtn {
     color: white;
     padding: 10px;
     text-decoration: none;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -283,7 +265,6 @@ button:hover {
     z-index: 1;
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
     color: black;
     padding: 12px 16px;
@@ -291,12 +272,10 @@ button:hover {
     display: block;
 }
 
-/* Change color on hover */
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;
 }
@@ -305,10 +284,9 @@ button:hover {
     text-align: center;
 }
 
-/* Style for the table */
 table {
     width: 80%;
-    margin: 20px auto; /* Center the table */
+    margin: 20px auto;
     border-collapse: collapse;
 }
 
@@ -421,4 +399,31 @@ th {
     font-size: 16px;
     line-height: 1.5;
     margin-bottom: 10px;
+}
+
+.action-form {
+    display: inline-block;
+    margin: 0;
+}
+
+input[type="submit"]
+.action-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]
+.action-button:hover {
+    background-color: #2980b9;
+}
+
+.action-form {
+    border: none;
+    padding: 0;
+    background: none;
 }
