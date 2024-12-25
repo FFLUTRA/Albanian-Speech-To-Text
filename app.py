@@ -138,30 +138,6 @@ def get_level_by_email(email):
     if level:
         return level
 
-# @app.route('/update_email', methods=['POST'])
-# def update_email():
-#     if 'user_email' in session:
-#         current_email = session['user_email']
-#         new_email = request.form['new_email']
-
-#         if not new_email:
-#             flash('New email cannot be empty.', 'error')
-#             return redirect(url_for('profile'))
-
-#         # Create an instance of the User class
-#         user = User(username=get_username_by_email(current_email), email=current_email, password=get_username_by_email(current_email), level=get_level_by_email(current_email))
-   
-#         # Call the updateEmail method
-#         if user.updateEmail(new_email):
-#             flash('Email updated successfully.', 'success')
-#         else:
-#             flash('Error updating email.', 'error')
-
-#         return redirect(url_for('profile'))
-
-#     flash('Please log in to access your profile.', 'error')
-#     return render_template('profile.html')
-
 @app.route('/update_email', methods=['POST'])
 def update_email():
     if 'user_email' in session:
@@ -335,8 +311,22 @@ def transcription():
             return jsonify({'error': 'No audio file provided'})
     return render_template('transcription.html')
 
+@app.route('/my_feedbacks')
+def my_feedbacks():
+    if 'user_email' in session:
+        email = session['user_email']
+        user_id = get_user_id_by_email(email)
+
+        if user_id is not None:
+            feedback_instance = Feedback(user_id, None)
+            feedback_data = feedback_instance.get_feedbacks_by_user_id()
+            return render_template('my_feedbacks.html', data=feedback_data)
+
+    flash('Please log in to access your feedbacks.', 'error')
+    return redirect(url_for('login'))
+
+
  
 if __name__ == '__main__':
     presentation_manager.modeManager()
     app.run(debug=True)
-
