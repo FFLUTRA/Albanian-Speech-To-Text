@@ -4,6 +4,7 @@ from components.dialect_management import DialectManagement
 from components.mode import Mode
 
 class TranscriptionSession(ABC):
+    # makes possible dependency injection
     def __init__(self, mode: Mode, dialect_manager: DialectManagement):
         self.start_time = None
         self.end_time = None
@@ -35,9 +36,8 @@ class TranscriptionSession(ABC):
 
     @abstractmethod
     def detectDialect(self, audioInput) -> Dialect:
-        pass
+        return super().detect_dialect(audioInput)
 
     @abstractmethod
     def applyDialectRules(self, dialect: Dialect):
         pass
-

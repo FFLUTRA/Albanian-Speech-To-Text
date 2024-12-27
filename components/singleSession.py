@@ -1,8 +1,11 @@
 from datetime import time
+
+from flask import flash
 from components.dialect import Dialect
 from components.mode import Mode
 from components.transcriptionSession import TranscriptionSession
 from components.dialect_management import DialectManagement
+import speech_recognition as sr
 
 
 class SingleSession(TranscriptionSession):
@@ -33,3 +36,10 @@ class SingleSession(TranscriptionSession):
         
     def manageTranscriptionAudio(self, audio) -> Dialect:
         return super().manageTranscriptionAudio(audio)
+    
+    def detect_dialect(audio):
+        return super().manageTranscriptionAudio(audio)
+
+    def applyDialectRules(self, dialect: Dialect):
+        # Logic that will be based on albanian datasets the will be created soon
+        pass
