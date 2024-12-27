@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Messages</title>
+    <title>Mesazhet e Feedback-ut</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'header.html' %}
     <div class="dropdown1">
-        <h1 styles="color: brown; text-align: center">My Feedback List</h1>
+        <h1 styles="color: brown; text-align: center">Mesazhet e mija</h1>
         <table>
             <thead>
                 <tr>
-                    <th>My Feedback Id</th>
-                    <th>My Message</th>
-                    <th>Time</th>
-                    <th>Update my message</th>
-                    <th>Delete my message</th>
+                    <th>Id</th>
+                    <th>Mesazhi Im</th>
+                    <th>Koha</th>
+                    <th>Përditëso Mesazhin</th>
+                    <th>Fshij Mesazhin</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +26,8 @@
                     <td>{{ row[0] }}</td>
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
-                    <td><button>Update</button></td>
-                    <td><button>Delete</button></td>
+                    <td><button>Përditëso</button></td>
+                    <td><button>Fshij</button></td>
                 </tr>
                 {% endfor %}
             </tbody>

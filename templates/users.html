@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users</title>
+    <title>Përdoruesit</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'header.html' %}
     <div class="dropdown1">
-        <h1 styles="color: brown; text-align: center">Users List</h1>
+        <h1 styles="color: brown; text-align: center">Lista e Përdoruesve</h1>
         <table>
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Username</th>
+                    <th>Emri i Përdoruesit</th>
                     <th>Email</th>
-                    <th>Security Level</th>
-                    <!-- <th>Update</th>
-                    <th>Delete</th> -->
+                    <th>Niveli i Sigurisë</th>
+                    <!-- <th>Përditëso</th>
+                    <th>Fshi</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -28,13 +28,18 @@
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</td>
                     <td>{{ row[4] }}</td>
-                    <!-- <td><button>Update</button></td> -->
-                    <!-- <td><button action="">Delete</button></td> -->
+                    <!-- <td><button>Përditëso</button></td> -->
+                    <!-- <td><button action="">Fshi</button></td> -->
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <br>
     <br>

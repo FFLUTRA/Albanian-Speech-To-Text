@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Login</title>
+    <title>Regjistrimi</title>
 </head>
 <body>
     {% include 'header.html' %}
@@ -19,30 +19,30 @@
     {% endwith %}
     <main>
         <div class="container">
-            <h1>Register</h1>
+            <h1>Regjistrohu</h1>
             <form method="POST" action="/create" class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">Emër përdoruesi:</label>
                 <input type="text" id="username" name="username" required>
 
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
     
-                <label for="password">Password:</label>
+                <label for="password">Fjalëkalimi:</label>
                 <input type="password" id="password" name="password" required>
 
-                <label for="confirm password">Confirm Password:</label>
+                <label for="confirm-password">Konfirmo Fjalëkalimin:</label>
                 <input type="password" id="confirm-password" name="password" required>
                 
-                <label for="security_level">Security Level:</label>
-                <select id="security_level" name="security_level">
+                <label for="security_level">Niveli i Sigurisë:</label>
+                <select id="new_level" name="new_level">
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
                     <option value="HIGH">HIGH</option>
                 </select>
 
-                <input type="submit" value="Register">
+                <input type="submit" value="Regjistrohu">
     
-                <a href="/login">Already have an account? Log In here</a>
+                <a href="/login">Tashmë keni një llogari? Kyçuni këtu</a>
             </form>
         </div>
     </main>

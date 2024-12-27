@@ -267,7 +267,7 @@ def submit_feedback():
             feedback.submit_feedback(user_id, feedback_data)
             flash("Message submitted successfully!", 'success')
             return redirect(url_for('contact'))
-    return redirect(url_for('contact'))  
+    return redirect(url_for('login'))  
 
 @app.route('/messages')
 def messages():

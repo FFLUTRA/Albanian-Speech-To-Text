@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap');
+
+*{
+    font-family: 'Nunito', sans-serif;
+}
 body {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Trebuchet MS', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -38,15 +43,20 @@ nav ul li a {
 }
 
 .profile {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
+}
+
+.profile p{
+    margin-left:0%
 }
 
 .profile p,
 input,
 select {
     margin-right: 40px;
+    font-size: 18px;
 }
 
 form {
@@ -67,13 +77,36 @@ form {
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
 
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 190px;
+    margin-right: 190px;
+}
+
+.profile-section pstrong{
+    text-align: left;
+}
+
+.profile-delete {
+    margin-left: 180px;
+    margin-right: 180px;
+    text-align: center;
+}
+
+.profile-delete button{
+    background-color: rgb(156, 37, 37);
+}
+
 .update {
     background-color: #fff;
-    padding: 20px;
+    padding-inline: 80px;
     border-radius: 5px;
-    max-width: 500px;
+    min-width: 700px;
     margin: 10px auto;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    font-size: 18px;
 }
 
 input[type="email"],
@@ -88,6 +121,13 @@ select {
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+}
+
+
+.profile button,
+.profile-delete button,
+.update button {
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
 }
 
 input[type="submit"],
@@ -172,8 +212,468 @@ a:hover,
     margin-bottom: 10px;
 }
 
-#contact button:hover {
+#social-links a{
+    margin-right: 30px;
+}
+
+#about-us {
+    color: #333;
+    text-align: center;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+#features,
+#mission-vision,
+#team,
+#values,
+#contact-form,
+#contact-index,
+#contact-info div{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+#team .team-member {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#team ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+#team li {
+    text-align: center;
+    flex: 1;
+    margin: 0 15px;
+}
+
+#values ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#values li {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+footer {
     background-color: #7eb5ad;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+}
+
+button {
+    background-color: #2e3130;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: auto;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: hsl(171, 27%, 60%);
+}
+
+.dropbtn {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown1 {
+    text-align: center;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+#transcription-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#transcription-area {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px;
+}
+
+#upload-area {
+    padding: 20px;
+    text-align: center;
+}
+
+#upload-area label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#upload-area input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#transcription-area textarea {
+    resize: none;
+    width: calc(100% - 40px);
+    height: 300px;
+    padding: 20px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin: 10px 20px;
+}
+
+#transcription-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+#transcription-buttons button {
+    background-color: #2e3130;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#transcription-buttons button:disabled {
+    background-color: #2e3130;
+    cursor: not-allowed;
+}
+
+#transcription-buttons button:hover {
+    background-color: hsl(171, 27%, 60%);
+}
+
+#transcription-status {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+#transcription-status p {
+    margin: 5px 0;
+}
+
+#info-area {
+    width: 80%;
+    max-width: 600px;
+    margin: 50px;
+    box-sizing: border-box;
+}
+
+#info-area h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: hsl(171, 27%, 60%);
+}
+
+#info-area p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.action-form {
+    display: inline-block;
+    margin: 0;
+}
+
+input[type="submit"]
+.action-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]
+.action-button:hover {
+    background-color: #2980b9;
+}
+
+.action-form {
+    border: none;
+    padding: 0;
+    background: none;
+}@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap');
+
+*{
+    font-family: 'Nunito', sans-serif;
+}
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #7eb5ad;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin-right: 80px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.profile p{
+    margin-left:0%
+}
+
+.profile p,
+input,
+select {
+    margin-right: 40px;
+    font-size: 18px;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+#profile {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 190px;
+    margin-right: 190px;
+}
+
+.profile-section pstrong{
+    text-align: left;
+}
+
+.profile-delete {
+    margin-left: 180px;
+    margin-right: 180px;
+    text-align: center;
+}
+
+.profile-delete button{
+    background-color: rgb(156, 37, 37);
+}
+
+.update {
+    background-color: #fff;
+    padding-inline: 80px;
+    border-radius: 5px;
+    min-width: 700px;
+    margin: 10px auto;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    font-size: 18px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+
+.profile button,
+.profile-delete button,
+.update button {
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+}
+
+input[type="submit"],
+button.cta-button {
+    background-color: #232726;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover,
+button.cta-button:hover {
+    background-color: #7eb5ad;
+}
+
+a,
+.form-group a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover,
+.form-group a:hover {
+    text-decoration: underline;
+}
+
+#hero {
+    background-image: url('img/albanian-1.png');
+    color: #333;
+    text-align: center;
+    padding: 100px 0;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+#hero button a{
+    color: white;
+    text-decoration: none;
+}
+
+#features {
+    align-items: center;
+    text-align: center;
+    padding: 50px 0;
+}
+
+#features ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+#features li {
+    text-align: center;
+    flex: 1;
+    margin: 0 15px;
+}
+
+#contact {
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+#contact-index {
+    background-color: #f0f0f0;
+    padding: 50px 0;
+    text-align: center;
+}
+
+#contact form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#contact label {
+    display: block;
+    margin-bottom: 10px;
 }
 
 #social-links a{
@@ -427,3 +927,4 @@ input[type="submit"]
     padding: 0;
     background: none;
 }
+

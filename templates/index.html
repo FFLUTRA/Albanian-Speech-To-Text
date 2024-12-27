@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,37 +10,37 @@
     {% include 'header.html' %}
     <main>
         <div id="hero">
-            <h1>Albanian Speech to Text</h1>
-            <h3>Convert Albanian speech to text with ease</h3>
+            <h1>Albanian Talk 2 Text</h1>
+            <h3>Konverto fjalët në tekst me lehtësi</h3>
                 {% if not session.user_email %}
-                    <button><a href="/login">Get Started</a></button>
+                    <button><a href="/login">Fillo transkriptimin</a></button>
                 {% else %}
-                    <button><a href="/transcription">Get Started</a></button>
+                    <button><a href="/transcription">Fillo transkriptimin</a></button>
                 {% endif %}
         </div>
         <section id="features">
-            <h1>Why Choose Albanian Speech to Text?</h1>
+            <h1>Pse AT2T?</h1>
             <ul>
                 <li>
-                    <h3>Accurate Transcription</h3>
-                    <p>Our advanced algorithms ensure accurate transcription of Albanian speech to text.</p>
+                    <h3>Transkriptim i Saktë</h3>
+                    <p>Algoritmet tona të avancuara sigurojnë transkriptim të saktë të fjalëve në tekst në gjuhën shqipe.</p>
                 </li>
                 <li>
-                    <h3>Easy to Use</h3>
-                    <p>Our user-friendly interface makes it easy to convert speech to text in just a few clicks.</p>
+                    <h3>Thjeshtësi në Përdorim</h3>
+                    <p>Interfejsi ynë i lehtë për përdorim e bën të thjeshtë konvertimin e fjalëve në tekst në disa klikime.</p>
                 </li>
                 <li>
-                    <h3>Secure and Private</h3>
-                    <p>Your data is safe with us. We prioritize your privacy and ensure that your speech data is securely stored and processed.</p>
+                    <h3>Të Sigurt dhe Privat</h3>
+                    <p>Të dhënat tuaja janë të sigurta te ne. Privatësina juaj është prioritet për ne dhe sigurojmë që të dhënat tuaja të sigurta dhe të përpunuara me kujdes.</p>
                 </li>
             </ul>
         </section>
         <section id="contact-index">
-            <h2>Get in Touch</h2>
+            <h2>Na konaktoni</h2>
             <form action="/submit_contact" method="post">
-                <label for="message">Message:</label>
+                <label for="message">Mesazhi:</label>
                 <textarea id="message" name="message" rows="4" required></textarea>
-                <button type="submit" class="cta-button">Send Message</button>
+                <button type="submit" onclick="return confirm('A jeni të sigurtë se dëshironi të dërgoni këtë mesazh?')" class="cta-button">Dërgo</button>
             </form>
         </section>
     </main>

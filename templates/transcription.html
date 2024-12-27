@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Transcription Page</title>
+    <title>Faqja e Transkriptimit</title>
 </head>
 <body>
     {% include 'header.html' %}
@@ -20,21 +20,21 @@
     <div id="transcription-container">
         <div id="transcription-area">
             <div id="upload-area">
-                <p>Click the "Start" button to begin transcription.</p>
+                <p>Klikoni butonin "Fillo" për të filluar transkriptimin.</p>
             </div>
-            <textarea id="transcription" placeholder="Transcription will appear here..." readonly></textarea>
+            <textarea id="transcription" placeholder="Transkriptimi do të shfaqet këtu..." readonly></textarea>
             <div id="transcription-buttons">
-                <button id="start-transcription">Start</button>
-                <button id="end-transcription" disabled>End</button>
-                <button id="save-transcription" disabled>Save Transcription</button>
+                <button id="start-transcription">Fillo</button>
+                <button id="pause-transcription">Pauzë</button>
+                <button id="pause-transcription">Vazhdo</button>
+                <button id="end-transcription" disabled>Mbaro</button>
+                <button id="save-transcription" disabled>Ruaj Transkriptimin</button>
             </div>
         </div>
         <div id="info-area">
-            <h2>Transcription Information</h2>
-            <p>This transcription service uses advanced algorithms to convert audio files into text.</p>
-            <p>Supported formats: mp3, wav, mp4, webm.</p>
-            <p>File size limit: 250MB.</p>
-            <p>Please make sure your audio file meets the requirements for accurate transcription.</p>
+            <h2>Informacione mbi Transkriptimin</h2>
+            <p>Ky shërbim transkriptimi përdor algoritme të avancuara për të konvertuar audio në tekst.</p>
+            <p>Kufiri i madhësisë së skedarit: 250MB.</p>
         </div>
     </div>
     {% include 'footer.html' %}
@@ -47,7 +47,7 @@
             recognition = new webkitSpeechRecognition();
             recognition.continuous = true;
             recognition.interimResults = true;
-            recognition.lang = 'en-US';
+            recognition.lang = 'sq';
 
             recognition.onresult = function (event) {
                 const result = event.results[event.results.length - 1];
@@ -65,7 +65,11 @@
             document.getElementById('start-transcription').disabled = true;
             document.getElementById('end-transcription').disabled = false;
             document.getElementById('save-transcription').disabled = true;
-            document.getElementById('transcription').value = 'Listening...';
+            document.getElementById('transcription').value = 'Duke dëgjuar...';
+        });
+
+        document.getElementById('pause-transcription').addEventListener('click', function () {
+            recognition.pause();
         });
 
         document.getElementById('end-transcription').addEventListener('click', function () {
@@ -77,7 +81,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'transcription.txt';
+            a.download = 'transkriptimi.txt';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
