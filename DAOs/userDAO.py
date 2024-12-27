@@ -6,7 +6,6 @@ from components.user import User
 class UserDao:
     def __init__(self):
         self.db_conn = DbConn()
-        # self.db_conn = DbConn(database="astt_db", host="localhost", user="postgres", password="postgres", port="5432")
 
 
     def add_user(self, user):
@@ -32,9 +31,15 @@ class UserDao:
 
         try:
             with conn.cursor() as cur:
-                cur.execute("UPDATE users SET email = %s WHERE email = %s", (new_email, user.email))
-                conn.commit()
-                return True
+                cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
+                existing_user = cur.fetchone()
+
+                if existing_user:
+                    cur.execute("UPDATE users SET email = %s WHERE email = %s", (new_email, user.email))
+                    conn.commit()
+                    return True
+                else:
+                    return False
         finally:
             conn.close()
 
@@ -44,10 +49,16 @@ class UserDao:
 
         try:
             with conn.cursor() as cur:
-                new_hashed_password = sha1_crypt.hash(new_password)
-                cur.execute("UPDATE users SET password = %s WHERE email = %s", (new_hashed_password, user.email))
-                conn.commit()
-                return True
+                cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
+                existing_user = cur.fetchone()
+
+                if existing_user:
+                    new_hashed_password = sha1_crypt.hash(new_password)
+                    cur.execute("UPDATE users SET password = %s WHERE email = %s", (new_hashed_password, user.email))
+                    conn.commit()
+                    return True
+                else:
+                    return False
         finally:
             conn.close()
 
@@ -56,9 +67,15 @@ class UserDao:
 
         try:
             with conn.cursor() as cur:
-                cur.execute("UPDATE users SET level = %s WHERE email = %s", (new_level, user.email))
-                conn.commit()
-                return True
+                cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
+                existing_user = cur.fetchone()
+
+                if existing_user:
+                    cur.execute("UPDATE users SET level = %s WHERE email = %s", (new_level, user.email))
+                    conn.commit()
+                    return True
+                else:
+                    return False
         finally:
             conn.close()
 
@@ -81,17 +98,16 @@ class UserDao:
         finally:
             conn.close()
 
-    def get_user_details(self, user_id):
+    def get_user_details(self, user):
         conn = self.db_conn.connect()
 
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+                cur.execute("SELECT * FROM users WHERE id = %s", (user.id))
                 user_data = cur.fetchone()
 
                 if user_data:
-                    username, email, password, level = user_data
-                    return User(username=username, email=email, password=password, level=level)
-
+                    return User(user_data)
+                
         finally:
             conn.close()

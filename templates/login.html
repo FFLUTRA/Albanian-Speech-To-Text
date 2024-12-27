@@ -4,59 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Albanian Speech to Text</title>
+    <script src="{{ url_for('static', filename='validationLogin.js') }}"></script>
+    <title>Kyçu</title>
 </head>
 <body>
+    
     {% include 'header.html' %}
-    <main>
-        <div id="hero">
-            <h1>Albanian Talk 2 Text</h1>
-            <h3>Konverto fjalët në tekst me lehtësi</h3>
-                {% if not session.user_email %}
-                    <button><a href="/login">Fillo transkriptimin</a></button>
-                {% else %}
-                    <button><a href="/transcription">Fillo transkriptimin</a></button>
-                {% endif %}
-        </div>
-        <section id="features">
-            <h1>Pse AT2T?</h1>
-            <ul>
-                <li>
-                    <h3>Transkriptim i Saktë</h3>
-                    <p>Algoritmet tona të avancuara sigurojnë transkriptim të saktë të fjalëve në tekst në gjuhën shqipe.</p>
-                </li>
-                <li>
-                    <h3>Thjeshtësi në Përdorim</h3>
-                    <p>Interfejsi ynë i lehtë për përdorim e bën të thjeshtë konvertimin e fjalëve në tekst në disa klikime.</p>
-                </li>
-                <li>
-                    <h3>Të Sigurt dhe Privat</h3>
-                    <p>Të dhënat tuaja janë të sigurta te ne. Privatësina juaj është prioritet për ne dhe sigurojmë që të dhënat tuaja të sigurta dhe të përpunuara me kujdes.</p>
-                </li>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
             </ul>
-        </section>
-        <section id="contact-index">
-            <h2>Na konaktoni</h2>
-            <form action="/submit_contact" method="post">
-                <label for="message">Mesazhi:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-                <button type="submit" onclick="return confirm('A jeni të sigurtë se dëshironi të dërgoni këtë mesazh?')" class="cta-button">Dërgo</button>
+        {% endif %}
+    {% endwith %}
+    <main>
+        <div class="container">
+            <h1>Kyçu</h1>
+            <form method="POST" action="/login" class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+    
+                <label for="password">Fjalëkalimi:</label>
+                <input type="password" id="password" name="password" required>
+    
+                <input type="submit" value="Kyçu">
+    
+                <a href="/register">Nuk keni një llogari? Regjistrohuni këtu</a>
             </form>
-        </section>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+        </div>
     </main>
     {% include 'footer.html' %}
-    <script>
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === 'block') {
-                        openDropdown.style.display = 'none';
-                    }
-                }
-            }
-        }
-    </script>
 </body>
 </html>

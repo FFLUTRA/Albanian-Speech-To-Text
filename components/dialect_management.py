@@ -1,10 +1,9 @@
 from abc import ABC, abstractmethod
-import audioop
 from dialect import Dialect
 
 class DialectManagement(ABC):
     @abstractmethod
-    def detectDialect(self, audioInput: audioop) -> Dialect:
+    def detectDialect(self, audioInput) -> Dialect:
         pass
 
     @abstractmethod

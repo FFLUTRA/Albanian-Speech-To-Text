@@ -1,6 +1,8 @@
 from datetime import time
+from components.dialect import Dialect
 from components.mode import Mode
 from components.transcriptionSession import TranscriptionSession
+from components.dialect_management import DialectManagement
 
 
 class SingleSession(TranscriptionSession):
@@ -28,3 +30,6 @@ class SingleSession(TranscriptionSession):
     def resumeTranscription(self):
         if self.transcription_in_progress and self.paused:
             self.paused = False
+        
+    def manageTranscriptionAudio(self, audio) -> Dialect:
+        return super().manageTranscriptionAudio(audio)

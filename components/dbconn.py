@@ -25,7 +25,7 @@ class DbConn:
         except Exception as e:
             print(f"Error: Unable to connect to the database. {e}")
 
-    def disconnect(self):
+    def close(self):
         if self.cur:
             self.cur.close()
         if self.conn:
