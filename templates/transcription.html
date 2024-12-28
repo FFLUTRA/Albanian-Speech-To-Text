@@ -19,7 +19,8 @@
     {% endwith %}
     <div id="transcription-container">
         <div id="transcription-area">
-            <div id="upload-area">
+            <div id="info-area">
+                <h2>Transkriptimi i të folurit në tekst</h2>
                 <p>Klikoni butonin "Fillo" për të filluar transkriptimin.</p>
             </div>
             <textarea id="transcription" placeholder="Transkriptimi do të shfaqet këtu..." readonly></textarea>
@@ -32,13 +33,16 @@
             </div>
         </div>
         <div id="info-area">
-            <h2>Informacione mbi Transkriptimin</h2>
-            <p>Ky shërbim transkriptimi përdor algoritme të avancuara për të konvertuar audio në tekst.</p>
-            <p>Kufiri i madhësisë së skedarit: 250MB.</p>
+            <h2>Informacione mbi transkriptimin</h2>
+            <p>Mirësevini te shërbimi ynë i transkriptimit! Këtu ju mund të flisni drejtpërdrejtë dhe ne do të konvertojmë fjalët tuaja në tekst përmes algoritmave të avancuar.</p>
+            <p>Kufiri i madhësisë së sesionit të fjalës: 15 minuta. Ju keni mundësi të shprehni mendimet tuaja, të regjistroni intervista, apo të përdorni shërbimin për çfarëdo që ju nevojitet.</p>
+            <p>Kjo është një përvojë e lehtë dhe shpejtë për t'ju ndihmuar në dokumentimin e ideve tuaja.</p>
+            <p>Për të filluar, klikoni butonin e "Fillo" dhe më pas filloni të flisni. Ju mund të ndërprisni dhe vazhdoni sesionin tuaj në çdo kohë.</p>
+            <p>Jemi këtu për t'ju ndihmuar në rrugën tuaj të transkriptimit me fjalë. Faleminderit që zgjodhët shërbimin tonë!</p>
         </div>
     </div>
     {% include 'footer.html' %}
-    
+   
     <script>
         let recognition;
         let transcription = '';
