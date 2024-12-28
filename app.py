@@ -5,7 +5,10 @@ from passlib.hash import sha1_crypt
 from DAOs.feedbackDAO import FeedbackDAO
 from DAOs.userDAO import UserDao
 from components.dbconn import DbConn
+from components.dialectManagementImp import DialectManagementImpl
 from components.presentation_manager import PresentationManager
+from components.transcriptionSession import TranscriptionSession
+from components.transcriptionSessionFactory import TranscriptionSessionFactory
 from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
 from components.user import User
 from components.feedback import Feedback
@@ -289,25 +292,8 @@ def index():
     conn.close()
     return render_template('users.html', data = data)
 
-
-recognizer = sr.Recognizer()
-
 @app.route('/transcription', methods=['GET', 'POST'])
 def transcription():
-    # global recognizer
-    # if request.method == 'POST':
-    #     if 'audio' in request.files:
-    #         audio_data = request.files['audio'].read()
-    #         try:
-    #             with sr.AudioFile(audio_data) as source:
-    #                 audio_text = recognizer.recognize_google(source)
-    #             return jsonify({'transcription': audio_text})
-    #         except sr.UnknownValueError:
-    #             return jsonify({'error': 'Speech Recognition could not understand the audio'})
-    #         except sr.RequestError as e:
-    #             return jsonify({'error': f"Could not request results from Google Speech Recognition service; {e}"})
-    #     else:
-    #         return jsonify({'error': 'No audio file provided'})
     return render_template('transcription.html')
 
 @app.route('/my_feedbacks')
@@ -327,6 +313,58 @@ def my_feedbacks():
     flash('Please log in to access your feedbacks.', 'error')
     return redirect(url_for('login'))
 
+# dialect_manager = DialectManagementImpl()
+# transcriptionSessionFactory = TranscriptionSessionFactory()
+
+# @app.route('/start_transcription')
+# def start_transcription():
+#     if 'user_email' in session:
+#         email = session['user_email']
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email), dialect_manager=dialect_manager)
+
+#         transcription_session.startTranscription()
+#         return jsonify(result="Started transcription")
+#     return jsonify(result="User not authenticated")
+
+# @app.route('/pause_transcription')
+# def pause_transcription():
+#     if 'user_email' in session:
+#         email = session['user_email']
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+
+#         transcription_session.pauseTranscription()
+#         return jsonify(result="Paused transcription")
+
+# @app.route('/resume_transcription')
+# def resume_transcription():
+#     if 'user_email' in session:
+#         email = session['user_email']
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+
+#     transcription_session.resumeTranscription()
+#     return jsonify(result="Resumed transcription")
+
+# @app.route('/end_transcription')
+# def end_transcription():
+#     if 'user_email' in session:
+#         email = session['user_email']
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+
+#     transcription_session.endTranscription()
+#     return jsonify(result="Ended transcription")
+
+# @app.route('/save_transcription', methods=['POST'])
+# def save_transcription():
+#     if 'user_email' in session:
+#         email = session['user_email']
+#         transcription = request.json.get('transcription')
+
+#         if transcription:
+#             transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+#             transcription_session.saveTranscription(transcription)
+#             return jsonify(result="Transcription saved successfully")
+
+#     return jsonify(result="User not authenticated or transcription not provided")
 
  
 if __name__ == '__main__':

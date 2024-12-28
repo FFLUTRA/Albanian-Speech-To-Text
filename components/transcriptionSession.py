@@ -1,43 +1,40 @@
-from abc import ABC, abstractmethod
+from datetime import time
+
+from flask import flash
 from components.dialect import Dialect
-from components.dialect_management import DialectManagement
 from components.mode import Mode
+from components.transcriptionSession import TranscriptionSession
+from components.dialect_management import DialectManagement
+import speech_recognition as sr
 
-class TranscriptionSession(ABC):
-    # makes possible dependency injection
-    def __init__(self, mode: Mode, dialect_manager: DialectManagement):
-        self.start_time = None
-        self.end_time = None
-        self.mode = mode
-        self.transcription_in_progress = False
-        self.paused = False
-        self.dialect_manager = dialect_manager
 
-    @abstractmethod
+class SingleSession(TranscriptionSession):
+    def __init__(self, mode: Mode, dialect_manager: DialectManagement, user_id: int):
+        super().__init__(mode, dialect_manager)
+        self.user_id = user_id
+
     def startTranscription(self):
-        pass
+        return super().startTranscription()
 
-    @abstractmethod
     def endTranscription(self):
-        pass
+        return super().endTranscription()
+    
+    def saveTranscription(self):
+        return super().saveTranscription()
 
-    @abstractmethod
     def pauseTranscription(self):
-        pass
+        if self.transcription_in_progress and not self.paused:
+            self.paused = True
 
-    @abstractmethod
     def resumeTranscription(self):
-        pass
+        if self.transcription_in_progress and self.paused:
+            self.paused = False
+        
+    def manageTranscriptionAudio(self, audio) -> Dialect:
+        return super().manageTranscriptionAudio(audio)
+    
+    def detectDialect(audio):
+        return super().manageTranscriptionAudio(audio)
 
-    @abstractmethod
-    def manageTranscriptionAudio(self, audio):
-        dialect = self.dialect_manager.detectDialect(audio)
-        self.dialect_manager.applyDialectRules(dialect)
-
-    @abstractmethod
-    def detectDialect(self, audioInput) -> Dialect:
-        return super().detect_dialect(audioInput)
-
-    @abstractmethod
     def applyDialectRules(self, dialect: Dialect):
-        pass
+        return super().applyDialectRules()

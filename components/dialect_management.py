@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
-
 from flask import flash
-from dialect import Dialect
 import speech_recognition as sr
 
+from components.dialect import Dialect
 
 class DialectManagement(ABC):
     

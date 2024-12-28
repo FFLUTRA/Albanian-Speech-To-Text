@@ -1,27 +1,21 @@
 from datetime import time
 from components.dialect import Dialect
+from components.dialect_management import DialectManagement
 from components.mode import Mode
 from components.transcriptionSession import TranscriptionSession
 
 
 class CollaborationSession(TranscriptionSession):
-    def __init__(self, mode: Mode, admin_id: int):
-        super().__init__(mode)
+    def __init__(self, mode: Mode, dialect_manager: DialectManagement, admin_id: int):
+        super().__init__(mode, dialect_manager)
         self.users = []
         self.admin_id = admin_id
 
     def startTranscription(self):
-        if not self.transcription_in_progress:
-            self.start_time = time.time()
-            self.transcription_in_progress = True
-            # SpechRec = SpeechRecognition()
-            # Code that will directly interect with our SpeechRecognition will be implementet here
+        return super().startTranscription()
 
     def endTranscription(self):
-        if self.transcription_in_progress:
-            self.end_time = time.time()
-            self.transcription_in_progress = False
-            self.paused = False
+        return super().startTranscription()
 
     def pauseTranscription(self):
         if self.transcription_in_progress and not self.paused:
@@ -30,6 +24,9 @@ class CollaborationSession(TranscriptionSession):
     def resumeTranscription(self):
         if self.transcription_in_progress and self.paused:
             self.paused = False
+        
+    def saveTranscription(self):
+        return super().saveTranscription()
 
     def inviteParticipant(self, user_id):
         if user_id in self.users:
@@ -58,13 +55,12 @@ class CollaborationSession(TranscriptionSession):
             return True
         else:
             return False
-    
+        
     def manageTranscriptionAudio(self, audio) -> Dialect:
         return super().manageTranscriptionAudio(audio)
     
-    def detect_dialect(audio):
+    def detectDialect(audio):
         return super().manageTranscriptionAudio(audio)
 
     def applyDialectRules(self, dialect: Dialect):
-        # Logic that will be based on albanian datasets the will be created soon
-        pass
+        return super().applyDialectRules()
