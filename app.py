@@ -9,6 +9,7 @@ from components.dialectManagementImp import DialectManagementImpl
 from components.presentation_manager import PresentationManager
 from components.transcriptionSession import TranscriptionSession
 from components.transcriptionSessionFactory import TranscriptionSessionFactory
+from imp.userDAOimp import UserDaoImplementation
 from messages import LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL
 from components.user import User
 from components.feedback import Feedback
@@ -65,9 +66,9 @@ def createUser():
     level = request.form['security_level']
     user = User(username, email, password, level)
 
-    user_dao = UserDao()
+    userDAO = UserDaoImplementation()
 
-    if user_dao.add_user(user):
+    if userDAO.add_user(user):
         flash(REGISTER_SUCCESS, 'success')
         return render_template('login.html')
 
