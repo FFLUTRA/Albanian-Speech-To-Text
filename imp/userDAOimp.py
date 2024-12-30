@@ -43,4 +43,22 @@ class UserDaoImplementation(UserDao):
                 else:
                     return False
         finally:
+            conn.close()  
+
+    def reset_password(self, user, new_password):
+        conn = self.db_conn.connect()
+
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
+                existing_user = cur.fetchone()
+
+                if existing_user:
+                    new_hashed_password = sha1_crypt.hash(new_password)
+                    cur.execute("UPDATE users SET password = %s WHERE email = %s", (new_hashed_password, user.email))
+                    conn.commit()
+                    return True
+                else:
+                    return False
+        finally:
             conn.close()
