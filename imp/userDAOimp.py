@@ -61,4 +61,21 @@ class UserDaoImplementation(UserDao):
                 else:
                     return False
         finally:
+            conn.close()      
+
+    def update_security_level(self, user: User, new_level: LEVEL):
+        conn = self.db_conn.connect()
+
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
+                existing_user = cur.fetchone()
+
+                if existing_user:
+                    cur.execute("UPDATE users SET level = %s WHERE email = %s", (new_level, user.email))
+                    conn.commit()
+                    return True
+                else:
+                    return False
+        finally:
             conn.close()

@@ -70,22 +70,22 @@ class UserDao(ABC):
     #     finally:
     #         conn.close()
 
-    def update_security_level(self, user, new_level):
-        conn = self.db_conn.connect()
+    def update_security_level(self, user: User, new_level: LEVEL) -> bool:
+        pass
 
-        try:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
-                existing_user = cur.fetchone()
+        # try:
+        #     with conn.cursor() as cur:
+        #         cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
+        #         existing_user = cur.fetchone()
 
-                if existing_user:
-                    cur.execute("UPDATE users SET level = %s WHERE email = %s", (new_level, user.email))
-                    conn.commit()
-                    return True
-                else:
-                    return False
-        finally:
-            conn.close()
+        #         if existing_user:
+        #             cur.execute("UPDATE users SET level = %s WHERE email = %s", (new_level, user.email))
+        #             conn.commit()
+        #             return True
+        #         else:
+        #             return False
+        # finally:
+        #     conn.close()
 
     def delete_account(self, user):
         conn = self.db_conn.connect()
