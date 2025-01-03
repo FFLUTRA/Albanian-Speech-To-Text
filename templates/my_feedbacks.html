@@ -26,8 +26,12 @@
                     <td>{{ row[0] }}</td>
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
-                    <td><button>Përditëso</button></td>
-                    <td><button>Fshij</button></td>
+                    <td><a href="{{ url_for('update_feedback', feedback_id=row[0]) }}"><button>Përditëso</button></a></td>
+                    <td>
+                        <a href="{{ url_for('delete_feedback', feedback_id=row[0]) }}">
+                            <button onclick="return confirm('A jeni i sigurt se dëshironi të fshini mesazhin?')">Fshij</button>
+                        </a>
+                    </td>                
                 </tr>
                 {% endfor %}
             </tbody>
