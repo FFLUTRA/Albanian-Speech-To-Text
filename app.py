@@ -171,8 +171,8 @@ def update_password():
             flash('New password cannot be empty.', 'error')
             return redirect(url_for('profile'))
 
-        userDAO = UserDaoImplementation()  
-        if userDAO.reset_password(User(email=current_email), new_password):
+        user_dao = UserDao()    
+        if user_dao.reset_password(User(email=current_email), new_password):
             flash('Password updated successfully.', 'success')
             return redirect(url_for('logout'))
         else:
@@ -193,9 +193,9 @@ def update_level():
             flash('New level cannot be empty.', 'error')
             return redirect(url_for('profile'))
 
-        userDAO = UserDaoImplementation()
+        user_dao = UserDao()
 
-        if userDAO.update_security_level(User(email=current_email), new_level):
+        if user_dao.update_security_level(User(email=current_email), new_level):
             flash('Level updated successfully.', 'success')
         else:
             flash('Error updating level.', 'error')
