@@ -1,40 +1,65 @@
+from abc import ABC, abstractmethod
 from datetime import time
 
-from flask import flash
-from components.dialect import Dialect
-from components.mode import Mode
-from components.transcriptionSession import TranscriptionSession
+from flask import jsonify
+from enums.dialect import Dialect
 from components.dialect_management import DialectManagement
 import speech_recognition as sr
+from enums.mode import Mode
 
+class TranscriptionSession(ABC):
+    # makes possible dependency injection
+    def __init__(self, mode: Mode, dialect_manager : DialectManagement):
+        self.start_time = None
+        self.end_time = None
+        self.mode = mode
+        self.transcription_in_progress = False
+        self.paused = False
+        self.dialect_manager = dialect_manager
+        self.recognizer = sr.Recognizer()
 
-class SingleSession(TranscriptionSession):
-    def __init__(self, mode: Mode, dialect_manager: DialectManagement, user_id: int):
-        super().__init__(mode, dialect_manager)
-        self.user_id = user_id
-
+    @abstractmethod
     def startTranscription(self):
-        return super().startTranscription()
+        self.transcription_in_progress = True
+        self.start_time = time.time()
 
-    def endTranscription(self):
-        return super().endTranscription()
-    
-    def saveTranscription(self):
-        return super().saveTranscription()
+        with sr.Microphone() as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+            print("Start speaking...")
+            audio = self.recognizer.listen(source)
 
-    def pauseTranscription(self):
-        if self.transcription_in_progress and not self.paused:
-            self.paused = True
-
-    def resumeTranscription(self):
-        if self.transcription_in_progress and self.paused:
-            self.paused = False
+        transcription = self.recognizer.recognize_google(audio, language='sq')
+        print("Transcription: ", transcription)
         
-    def manageTranscriptionAudio(self, audio) -> Dialect:
-        return super().manageTranscriptionAudio(audio)
-    
-    def detectDialect(audio):
-        return super().manageTranscriptionAudio(audio)
+        return transcription
 
+    @abstractmethod
+    def endTranscription(self):
+        self.transcription_in_progress = False
+        self.end_time = time.time()
+
+    @abstractmethod
+    def pauseTranscription(self):
+        self.paused = True
+
+    @abstractmethod
+    def resumeTranscription(self):
+        self.paused = False
+
+    @abstractmethod
+    def saveTranscription(self, transcription, filename="transcription.txt"):
+        with open(filename, 'w') as file:
+            file.write(transcription)
+
+    @abstractmethod
+    def manageTranscriptionAudio(self, audio):
+        dialect = self.dialect_manager.detectDialect(audio)
+        self.dialect_manager.applyDialectRules(dialect)
+
+    @abstractmethod
+    def detectDialect(self, audioInput) -> Dialect:
+        return super().detect_dialect(audioInput)
+
+    @abstractmethod
     def applyDialectRules(self, dialect: Dialect):
-        return super().applyDialectRules()
+        pass

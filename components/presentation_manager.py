@@ -1,5 +1,5 @@
 import requests
-from components.mode import Mode
+from enums.mode import Mode
 
 class PresentationManager:
     def __init__(self):

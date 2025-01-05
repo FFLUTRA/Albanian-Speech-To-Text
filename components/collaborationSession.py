@@ -1,7 +1,7 @@
 from datetime import time
-from components.dialect import Dialect
+from enums.dialect import Dialect
 from components.dialect_management import DialectManagement
-from components.mode import Mode
+from enums.mode import Mode
 from components.transcriptionSession import TranscriptionSession
 
 

@@ -5,7 +5,7 @@ from passlib.hash import sha1_crypt
 from DAOs.feedbackDAO import FeedbackDAO
 from DAOs.userDAO import UserDao
 from components.dbconn import DbConn
-from components.dialectManagementImp import DialectManagementImpl
+from imp.dialectManagementImp import DialectManagementImpl
 from components.presentation_manager import PresentationManager
 from components.transcriptionSession import TranscriptionSession
 from components.transcriptionSessionFactory import TranscriptionSessionFactory

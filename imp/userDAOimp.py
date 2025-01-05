@@ -1,7 +1,7 @@
 from passlib.hash import sha1_crypt
 from DAOs.userDAO import UserDao
 from components.dbconn import DbConn
-from components.level import LEVEL
+from enums.level import LEVEL
 from components.user import User
 
 

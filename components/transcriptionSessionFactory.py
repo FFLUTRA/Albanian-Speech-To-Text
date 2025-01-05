@@ -1,9 +1,9 @@
 from components.dialect_management import DialectManagement
-from components.mode import Mode
+from enums.mode import Mode
 from components.singleSession import SingleSession
 from components.collaborationSession import CollaborationSession
 
-class TranscriptionSessionFactory: #Single Factory 
+class TranscriptionSessionFactory: #Simple Factory 
 #     @staticmethod
 #     def create_transcription_session(self, mode: Mode, dialect_manager: DialectManagement, user_id=None, admin_id=None):
         # if admin_id is not None:
