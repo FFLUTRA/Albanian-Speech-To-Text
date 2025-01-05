@@ -150,8 +150,8 @@ def update_email():
             flash('New email cannot be empty.', 'error')
             return redirect(url_for('profile'))
 
-        user_dao = UserDao()
-        if user_dao.update_email(User(email=current_email), new_email):
+        userDAO = UserDaoImplementation()
+        if userDAO.update_email(User(email=current_email), new_email):
             flash('Email updated successfully.', 'success')
             return redirect(url_for('logout'))
         else:
@@ -172,8 +172,8 @@ def update_password():
             flash('New password cannot be empty.', 'error')
             return redirect(url_for('profile'))
 
-        user_dao = UserDao()    
-        if user_dao.reset_password(User(email=current_email), new_password):
+        userDAO = UserDaoImplementation()  
+        if userDAO.reset_password(User(email=current_email), new_password):
             flash('Password updated successfully.', 'success')
             return redirect(url_for('logout'))
         else:
@@ -194,9 +194,9 @@ def update_level():
             flash('New level cannot be empty.', 'error')
             return redirect(url_for('profile'))
 
-        user_dao = UserDao()
+        userDAO = UserDaoImplementation()
 
-        if user_dao.update_security_level(User(email=current_email), new_level):
+        if userDAO.update_security_level(User(email=current_email), new_level):
             flash('Level updated successfully.', 'success')
         else:
             flash('Error updating level.', 'error')
@@ -211,9 +211,9 @@ def delete_account():
     if 'user_email' in session:
         current_email = session['user_email']
        
-        user_dao = UserDao()    
+        userDAO = UserDaoImplementation()    
 
-        if user_dao.delete_account(User(email=current_email)):
+        if userDAO.delete_account(User(email=current_email)):
             session.pop('user_email', None)
             flash('Account deleted successfully.', 'success')
             return redirect(url_for('home'))
