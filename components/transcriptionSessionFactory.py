@@ -16,12 +16,6 @@ class TranscriptionSessionFactory: #Simple Factory
         (False, True): SingleSession
     }
 
-    @staticmethod
-    def _get_session_type(is_admin, is_user):
-        # Lazy loading
-        return TranscriptionSessionFactory.session_creation_map.get((is_admin, is_user), None)
-
-    @staticmethod
     def create_transcription_session(mode: Mode, dialect_manager: DialectManagement, user_id=None, admin_id=None):
         is_admin = admin_id is not None
         is_user = user_id is not None
@@ -32,3 +26,7 @@ class TranscriptionSessionFactory: #Simple Factory
         if session_type:
             # RIP
             return session_type(mode, admin_id or user_id, dialect_manager)
+        
+    def _get_session_type(is_admin, is_user):
+        # Lazy loading
+        return TranscriptionSessionFactory.session_creation_map.get((is_admin, is_user), None)

@@ -6,7 +6,7 @@ from DAOs.feedbackDAO import FeedbackDAO
 from DAOs.userDAO import UserDao
 from components.dbconn import DbConn
 from imp.dialectManagementImp import DialectManagementImpl
-from components.presentation_manager import PresentationManager
+from components.applicationManager import ApplicationManager
 from components.transcriptionSession import TranscriptionSession
 from components.transcriptionSessionFactory import TranscriptionSessionFactory
 from imp.feedbackDAOimp import FeedbackDaoImplementation
@@ -18,9 +18,9 @@ import speech_recognition as sr
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-presentation_manager = PresentationManager()
+application_manager = ApplicationManager()
 
-presentation_manager.start()
+application_manager.start()
 
 @app.route('/')
 def home():
@@ -352,7 +352,7 @@ def delete_feedback():
 # def start_transcription():
 #     if 'user_email' in session:
 #         email = session['user_email']
-#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email), dialect_manager=dialect_manager)
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=application_manager.modeManager(), user_id=get_user_id_by_email(email), dialect_manager=dialect_manager)
 
 #         transcription_session.startTranscription()
 #         return jsonify(result="Started transcription")
@@ -362,7 +362,7 @@ def delete_feedback():
 # def pause_transcription():
 #     if 'user_email' in session:
 #         email = session['user_email']
-#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=application_manager.modeManager(), user_id=get_user_id_by_email(email))
 
 #         transcription_session.pauseTranscription()
 #         return jsonify(result="Paused transcription")
@@ -371,7 +371,7 @@ def delete_feedback():
 # def resume_transcription():
 #     if 'user_email' in session:
 #         email = session['user_email']
-#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=application_manager.modeManager(), user_id=get_user_id_by_email(email))
 
 #     transcription_session.resumeTranscription()
 #     return jsonify(result="Resumed transcription")
@@ -380,7 +380,7 @@ def delete_feedback():
 # def end_transcription():
 #     if 'user_email' in session:
 #         email = session['user_email']
-#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+#         transcription_session = transcriptionSessionFactory.create_transcription_session(mode=application_manager.modeManager(), user_id=get_user_id_by_email(email))
 
 #     transcription_session.endTranscription()
 #     return jsonify(result="Ended transcription")
@@ -392,7 +392,7 @@ def delete_feedback():
 #         transcription = request.json.get('transcription')
 
 #         if transcription:
-#             transcription_session = transcriptionSessionFactory.create_transcription_session(mode=presentation_manager.modeManager(), user_id=get_user_id_by_email(email))
+#             transcription_session = transcriptionSessionFactory.create_transcription_session(mode=application_manager.modeManager(), user_id=get_user_id_by_email(email))
 #             transcription_session.saveTranscription(transcription)
 #             return jsonify(result="Transcription saved successfully")
 
@@ -400,5 +400,5 @@ def delete_feedback():
 
  
 if __name__ == '__main__':
-    presentation_manager.modeManager()
+    application_manager.modeManager()
     app.run(debug=True)

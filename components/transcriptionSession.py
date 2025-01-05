@@ -6,21 +6,21 @@ from enums.dialect import Dialect
 from components.dialect_management import DialectManagement
 import speech_recognition as sr
 from enums.mode import Mode
+from imp.dialectManagementImp import DialectManagementImpl
 
 class TranscriptionSession(ABC):
     # makes possible dependency injection
-    def __init__(self, mode: Mode, dialect_manager : DialectManagement):
+    def __init__(self, mode: Mode, dialect_manager : DialectManagementImpl):
         self.start_time = None
         self.end_time = None
         self.mode = mode
-        self.transcription_in_progress = False
-        self.paused = False
+        self.status = False
         self.dialect_manager = dialect_manager
         self.recognizer = sr.Recognizer()
 
     @abstractmethod
     def startTranscription(self):
-        self.transcription_in_progress = True
+        self.status = True
         self.start_time = time.time()
 
         with sr.Microphone() as source:
@@ -35,16 +35,16 @@ class TranscriptionSession(ABC):
 
     @abstractmethod
     def endTranscription(self):
-        self.transcription_in_progress = False
+        self.status = False
         self.end_time = time.time()
 
     @abstractmethod
     def pauseTranscription(self):
-        self.paused = True
+        self.status = False
 
     @abstractmethod
     def resumeTranscription(self):
-        self.paused = False
+        self.status = True
 
     @abstractmethod
     def saveTranscription(self, transcription, filename="transcription.txt"):

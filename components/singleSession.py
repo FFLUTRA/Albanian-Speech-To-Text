@@ -7,9 +7,11 @@ from components.transcriptionSession import TranscriptionSession
 from components.dialect_management import DialectManagement
 import speech_recognition as sr
 
+from imp.dialectManagementImp import DialectManagementImpl
+
 
 class SingleSession(TranscriptionSession):
-    def __init__(self, mode: Mode, dialect_manager: DialectManagement, user_id: int):
+    def __init__(self, mode: Mode, dialect_manager: DialectManagementImpl, user_id: int):
         super().__init__(mode, dialect_manager)
         self.user_id = user_id
 

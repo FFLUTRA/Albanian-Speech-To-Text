@@ -3,10 +3,11 @@ from enums.dialect import Dialect
 from components.dialect_management import DialectManagement
 from enums.mode import Mode
 from components.transcriptionSession import TranscriptionSession
+from imp.dialectManagementImp import DialectManagementImpl
 
 
 class CollaborationSession(TranscriptionSession):
-    def __init__(self, mode: Mode, dialect_manager: DialectManagement, admin_id: int):
+    def __init__(self, mode: Mode, dialect_manager: DialectManagementImpl, admin_id: int):
         super().__init__(mode, dialect_manager)
         self.users = []
         self.admin_id = admin_id

@@ -1,12 +1,12 @@
 import requests
 from enums.mode import Mode
 
-class PresentationManager:
+class ApplicationManager:
     def __init__(self):
         self.start()
 
     def start(self):
-        print("Welcome to presentation layer!")
+        print("Welcome to applcation layer!")
 
     def modeManager(self):
         try:
