@@ -16,18 +16,25 @@ class CollaborationSession(TranscriptionSession):
         return super().startTranscription()
 
     def endTranscription(self):
-        return super().startTranscription()
+        super().endTranscription()
+    
+    def saveTranscription(self):
+        super().saveTranscription()
 
     def pauseTranscription(self):
-        if self.transcription_in_progress and not self.paused:
-            self.paused = True
+        super().pauseTranscription()
 
     def resumeTranscription(self):
-        if self.transcription_in_progress and self.paused:
-            self.paused = False
+        super().resumeTranscription()
         
-    def saveTranscription(self):
-        return super().saveTranscription()
+    def manageTranscriptionAudio(self, audio) -> Dialect:
+        super().manageTranscriptionAudio(audio)
+    
+    def detectDialect(audio):
+        return super().manageTranscriptionAudio(audio)
+
+    def applyDialectRules(self, dialect: Dialect):
+        super().applyDialectRules()
 
     def inviteParticipant(self, user_id):
         if user_id in self.users:
@@ -56,12 +63,3 @@ class CollaborationSession(TranscriptionSession):
             return True
         else:
             return False
-        
-    def manageTranscriptionAudio(self, audio) -> Dialect:
-        return super().manageTranscriptionAudio(audio)
-    
-    def detectDialect(audio):
-        return super().manageTranscriptionAudio(audio)
-
-    def applyDialectRules(self, dialect: Dialect):
-        return super().applyDialectRules()

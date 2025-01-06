@@ -6,7 +6,7 @@ class ApplicationManager:
         self.start()
 
     def start(self):
-        print("Welcome to applcation layer!")
+        print("Welcome to application layer!")
 
     def modeManager(self):
         try:
@@ -17,3 +17,4 @@ class ApplicationManager:
             pass
 
         return Mode.OFFLINE
+

@@ -4,7 +4,6 @@ from components.singleSession import SingleSession
 from components.collaborationSession import CollaborationSession
 
 class TranscriptionSessionFactory: #Simple Factory 
-#     @staticmethod
 #     def create_transcription_session(self, mode: Mode, dialect_manager: DialectManagement, user_id=None, admin_id=None):
         # if admin_id is not None:
         #     return CollaborationSession(mode, admin_id, dialect_manager)
@@ -23,9 +22,8 @@ class TranscriptionSessionFactory: #Simple Factory
         # Lazy loading
         session_type = TranscriptionSessionFactory._get_session_type(is_admin, is_user)
 
-        if session_type:
-            # RIP
-            return session_type(mode, admin_id or user_id, dialect_manager)
+        # RIP
+        return session_type(mode, admin_id or user_id, dialect_manager)
         
     def _get_session_type(is_admin, is_user):
         # Lazy loading

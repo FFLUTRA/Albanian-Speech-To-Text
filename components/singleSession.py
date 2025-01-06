@@ -19,24 +19,22 @@ class SingleSession(TranscriptionSession):
         return super().startTranscription()
 
     def endTranscription(self):
-        return super().endTranscription()
+        super().endTranscription()
     
     def saveTranscription(self):
-        return super().saveTranscription()
+        super().saveTranscription()
 
     def pauseTranscription(self):
-        if self.transcription_in_progress and not self.paused:
-            self.paused = True
+        super().pauseTranscription()
 
     def resumeTranscription(self):
-        if self.transcription_in_progress and self.paused:
-            self.paused = False
+        super().resumeTranscription()
         
     def manageTranscriptionAudio(self, audio) -> Dialect:
-        return super().manageTranscriptionAudio(audio)
+        super().manageTranscriptionAudio(audio)
     
     def detectDialect(audio):
         return super().manageTranscriptionAudio(audio)
 
     def applyDialectRules(self, dialect: Dialect):
-        return super().applyDialectRules()
+        super().applyDialectRules()

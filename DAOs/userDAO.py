@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-from passlib.hash import sha1_crypt
-from components.dbconn import DbConn
 from enums.level import LEVEL
 from components.user import User
 
@@ -27,4 +25,4 @@ class UserDao(ABC):
 
     @abstractmethod
     def get_user_details(self, user: User) -> User:
-        pass 
+        pass

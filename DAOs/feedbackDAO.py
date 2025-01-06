@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from components.dbconn import DbConn
 
 class FeedbackDAO(ABC):
     

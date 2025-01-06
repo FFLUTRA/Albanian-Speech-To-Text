@@ -22,4 +22,4 @@ class DialectManagementImpl(DialectManagement):
 
 
     def applyDialectRules(self, dialect: Dialect):
-        return super().applyDialectRules()
+        super().applyDialectRules()
